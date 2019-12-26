@@ -1,11 +1,43 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <!--  Button  -->
+    <style name="Button" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/background_button</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/button_text_size</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/nunito_bold</item>
+        <item name="fontFamily">@font/nunito_bold</item>
+        <item name="android:paddingLeft">@dimen/margin_medium</item>
+        <item name="android:paddingRight">@dimen/margin_medium</item>
     </style>
+
+    <style name="Button.Secondary">
+        <item name="android:background">@drawable/background_secondary_button</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="Button.Light">
+        <item name="android:background">@drawable/background_light_button</item>
+        <item name="android:textColor">@color/orange</item>
+    </style>
+
+    <!--  TextView  -->
+    <style name="TextField" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/dark_grey</item>
+    </style>
+
+    <style name="TextField.Small">
+        <item name="android:textSize">@dimen/margin_small</item>
+    </style>
+
+    <style name="TextField.Medium">
+        <item name="android:textSize">@dimen/margin_medium</item>
+    </style>
+
+    <style name="TextField.Big">
+        <item name="android:textSize">@dimen/margin_large</item>
+    </style>
+
 
 </resources>
