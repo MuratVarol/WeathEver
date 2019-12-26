@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/graph_main"
+    app:startDestination="@id/weatherFragment">
+
+    <fragment
+        android:id="@+id/weatherFragment"
+        android:name="com.varol.weathever.screen.weather.WeatherFragment"
+        android:label="WeatherFragment"
+        app:enterAnim="@anim/enter_presentation"
+        app:exitAnim="@anim/exit_presentation"
+        app:popEnterAnim="@anim/pop_enter_presentation"
+        app:popExitAnim="@anim/pop_exit_presentation" />
+
+</navigation>

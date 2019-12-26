@@ -1,0 +1,120 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-kapt'
+
+apply plugin: 'kotlin-android-extensions'
+
+
+android {
+    compileSdkVersion buildConfig.compileSdk
+    defaultConfig {
+        applicationId buildConfig.applicationId
+        minSdkVersion buildConfig.minSdk
+        targetSdkVersion buildConfig.targetSdk
+        versionCode generateVersionCode()
+        versionName generateVersionName()
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+    }
+
+    // to support experimental extensions such as synthetic, @Parcelize etc
+    androidExtensions {
+        experimental = true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    dataBinding {
+        enabled true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    flavorDimensions "default"
+
+    productFlavors {
+        dev {
+            buildConfigField "String", "API_KEY", API_KEY
+            buildConfigField "String", "BASE_URL", BASE_URL
+        }
+
+        prod {
+            buildConfigField "String", "API_KEY", API_KEY
+            buildConfigField "String", "BASE_URL", BASE_URL
+        }
+
+        mock {
+            buildConfigField "String", "API_KEY", API_KEY_INVALID
+            buildConfigField "String", "BASE_URL", BASE_URL
+        }
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
+        androidTest.java.srcDirs += 'src/androidTest/kotlin'
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation deps.kotlin.stdlib.jdk
+    implementation deps.androidx.core
+    implementation deps.androidx.appCompat
+    implementation deps.androidx.constraintLayout
+    implementation deps.androidx.recyclerView
+    implementation deps.androidx.lifeCycle
+    implementation deps.androidx.liveData
+    implementation deps.androidx.navigation
+
+    implementation deps.okhttp.client
+
+    implementation deps.dagger.runtime
+    implementation deps.dagger.support
+
+    implementation deps.retrofit.client
+    implementation deps.retrofit.converterMoshi
+    implementation deps.retrofit.rxJavaAdapter
+
+    implementation deps.moshi
+
+    implementation deps.rx.java
+    implementation deps.rx.android
+
+    implementation deps.glide.main
+    kapt deps.glide.compiler
+
+    implementation deps.room.base
+    implementation deps.room.rxJava
+    kapt deps.room.compiler
+
+    kapt deps.commonKaptDependencies
+
+    releaseImplementation deps.chuckOkHttp.release
+    debugImplementation deps.chuckOkHttp.debug
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+}

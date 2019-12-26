@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout>
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.varol.weathever.data.remote.model.WeatherRequestModel" />
+
+        <variable
+            name="viewModel"
+            type="com.varol.weathever.base.BaseAndroidViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>
