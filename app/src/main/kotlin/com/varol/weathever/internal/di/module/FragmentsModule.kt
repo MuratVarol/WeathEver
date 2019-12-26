@@ -11,4 +11,5 @@ internal abstract class FragmentsModule {
     @WeatherScope
     @ContributesAndroidInjector
     internal abstract fun contributeWeatherFragment(): WeatherFragment
+
 }
