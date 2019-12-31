@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="model"
+            type="com.varol.weathever.internal.popup.PopupUiModel" />
+
+        <variable
+            name="callback"
+            type="com.varol.weathever.internal.popup.PopupCallback" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_popup"
+        android:paddingBottom="@dimen/margin_small">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/image_view_popup"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:scaleType="fitXY"
+            app:imageResource="@{ model.bgResource }"
+            app:layout_constraintDimensionRatio="3:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/bg_popup_warning" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottie_view_popup_icon"
+            android:layout_width="@dimen/popup_icon_size"
+            android:layout_height="@dimen/popup_icon_size"
+            app:layout_constraintBottom_toBottomOf="@+id/image_view_popup"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottieFile="@{model.iconResource}"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/text_view_popup_title"
+            style="@style/TextField.Header.Black"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_medium"
+            android:gravity="center"
+            android:text="@{ model.title }"
+            app:hideIfNullOrEmpty="@{ model.title }"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/image_view_popup"
+            tools:text="Title" />
+
+        <ScrollView
+            android:id="@+id/scroll_view_popup_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:hideIfNullOrEmpty="@{ model.styledMessage }"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_popup_title">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/text_view_popup_message"
+                style="@style/TextField.Popup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_xxl"
+                android:gravity="center"
+                android:text="@{ model.styledMessage }"
+                app:hideIfNullOrEmpty="@{ model.styledMessage }" />
+
+        </ScrollView>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_input_layout_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:theme="@style/TextInputLayout"
+            app:hideIfNullOrEmpty="@{ model.editableText }"
+            app:hintTextAppearance="@style/HintText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/scroll_view_popup_message"
+            tools:visibility="gone">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edit_text_popup"
+                style="@style/EditText.PopupInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:digits="0123456789"
+                android:hint="@{ model.editableHint }"
+                android:imeOptions="actionDone"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text="@={ model.editableText }" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_popup_cancel"
+            style="@style/Button.Secondary"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_popup_button"
+            android:layout_marginStart="@dimen/margin_xxl"
+            android:layout_marginLeft="@dimen/margin_xxl"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:layout_marginRight="@dimen/margin_small"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:gravity="center"
+            android:onClick="@{ () -> callback.onCancelClick() }"
+            android:paddingTop="@dimen/margin_medium"
+            android:paddingBottom="@dimen/margin_medium"
+            android:text="@{model.cancelButtonText}"
+            android:visibility="@{ model.addCancelButton ? View.VISIBLE : View.GONE }"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/button_popup_ok"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_input_layout_edit_text" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_popup_ok"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_popup_button"
+            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_xxl"
+            android:layout_marginRight="@dimen/margin_xxl"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:gravity="center"
+            android:onClick="@{ () -> callback.onConfirmClick() }"
+            android:paddingTop="@dimen/margin_medium"
+            android:paddingBottom="@dimen/margin_medium"
+            android:text="@{model.confirmButtonText}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/button_popup_cancel"
+            app:layout_constraintTop_toBottomOf="@+id/text_input_layout_edit_text"
+            app:layout_constraintWidth_max="170dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

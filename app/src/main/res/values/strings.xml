@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">WeathEver</string>
+    <string name="weathers">Weathers</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
 </resources>
