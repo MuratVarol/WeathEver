@@ -7,7 +7,9 @@ import com.serjltt.moshi.adapters.Wrapped
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.varol.weathever.BuildConfig
+import com.varol.weathever.internal.util.NetworkHandler
 import com.varol.weathever.internal.util.network.CacheInterceptor
+import com.varol.weathever.internal.util.network.ErrorHandlerInterceptor
 import com.varol.weathever.internal.util.network.MoshiConverters
 import com.varol.weathever.internal.util.network.RequestInterceptor
 import dagger.Lazy
@@ -21,7 +23,6 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import java.io.File
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
-
 
 private const val CLIENT_TIME_OUT = 120L
 private const val CLIENT_CACHE_SIZE = 10 * 1024 * 1024L
@@ -82,6 +83,15 @@ class NetworkModule {
     }
 
     /**
+     * returns RequestInterceptor
+     */
+    @Provides
+    @Singleton
+    fun createErrorHandlerInterceptor(context: Context): ErrorHandlerInterceptor {
+        return ErrorHandlerInterceptor(NetworkHandler(context))
+    }
+
+    /**
      * Create OkHttp client with required interceptors and defined timeouts
      */
     @Provides
@@ -90,13 +100,15 @@ class NetworkModule {
         cache: Cache,
         chuckInterceptor: ChuckInterceptor,
         cacheInterceptor: CacheInterceptor,
-        requestInterceptor: RequestInterceptor
+        requestInterceptor: RequestInterceptor,
+        errorHandlerInterceptor: ErrorHandlerInterceptor
     ): OkHttpClient {
         val okHttpBuilder = OkHttpClient.Builder()
         okHttpBuilder
             .addInterceptor(chuckInterceptor)
             .addInterceptor(cacheInterceptor)
             .addInterceptor(requestInterceptor)
+            .addInterceptor(errorHandlerInterceptor)
             .connectTimeout(CLIENT_TIME_OUT, TimeUnit.SECONDS)
             .writeTimeout(CLIENT_TIME_OUT, TimeUnit.SECONDS)
             .readTimeout(CLIENT_TIME_OUT, TimeUnit.SECONDS)
@@ -116,24 +128,20 @@ class NetworkModule {
 
     /**
      * Create Retrofit Client
-     *
-     * <reified T> private func let us using reflection.
-     * We can use generics and reflection so ->
-     *  we don't have to define required Api Interface here
      */
     @Provides
     @Singleton
-    inline fun <reified T> createWebService(
+    fun createWebService(
         okHttpClient: Lazy<OkHttpClient>,
         moshi: Moshi,
         baseUrl: String
-    ): T {
-        val retrofit = Retrofit.Builder()
+    ): Retrofit {
+        return Retrofit.Builder()
             .baseUrl(baseUrl)
             .callFactory { okHttpClient.get().newCall(it) }
             .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
-        return retrofit.create(T::class.java)
     }
+
 }

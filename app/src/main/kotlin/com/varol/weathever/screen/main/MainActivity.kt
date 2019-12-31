@@ -12,13 +12,14 @@ import com.varol.weathever.R
 import com.varol.weathever.base.BaseBindingActivity
 import com.varol.weathever.databinding.ActivityMainBinding
 
-const val TRANSLUCENT_COLOR = 0x19000000
 
 class MainActivity : BaseBindingActivity<MainViewModel, ActivityMainBinding>() {
     override val layoutId get() = R.layout.activity_main
     val navController: NavController by lazy { findNavController(R.id.navHostFragment) }
 
     companion object {
+
+        const val TRANSLUCENT_COLOR = 0x19000000
 
         fun launch(activity: AppCompatActivity) =
             activity.apply {

@@ -1,6 +1,9 @@
 package com.varol.weathever.base
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -10,6 +13,7 @@ import com.varol.weathever.BR
 import dagger.android.support.DaggerAppCompatActivity
 import java.lang.reflect.ParameterizedType
 import javax.inject.Inject
+
 
 abstract class BaseBindingActivity<VM : BaseAndroidViewModel, DB : androidx.databinding.ViewDataBinding> :
     DaggerAppCompatActivity() {

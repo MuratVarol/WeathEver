@@ -101,6 +101,10 @@ dependencies {
     implementation deps.rx.java
     implementation deps.rx.android
 
+    implementation deps.andPermission
+
+    implementation deps.play.location
+
     implementation deps.glide.main
     kapt deps.glide.compiler
 
@@ -112,6 +116,8 @@ dependencies {
 
     releaseImplementation deps.chuckOkHttp.release
     debugImplementation deps.chuckOkHttp.debug
+
+    implementation deps.lottie
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'

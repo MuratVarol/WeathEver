@@ -1,4 +1,4 @@
-package com.varol.weathever.data.local.database
+package com.varol.weathever.data.local.database.dao
 
 import androidx.room.Delete
 import androidx.room.Insert

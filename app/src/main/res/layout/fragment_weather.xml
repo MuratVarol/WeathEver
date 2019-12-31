@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
@@ -12,14 +13,105 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.AppCompatButton
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar_header"
+            app:headerTitle="@{@string/weathers}"
+            app:visibilityOfLeftButton="@{false}"
+            app:visibilityOfRightButton="@{true}" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_cloud_rate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Weather Fragment"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_margin="@dimen/margin_large"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@{ viewModel.currentLocWeather.cloudRate }"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            tools:text="80%" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_temp_max"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_large"
+            android:text="@{ viewModel.currentLocWeather.cloudRate }"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvDegree"
+            app:layout_constraintTop_toTopOf="@+id/tvDegree"
+            tools:text="80%" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_temp_min"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_large"
+            android:text="@{ viewModel.currentLocWeather.cloudRate }"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvDegree"
+            app:layout_constraintTop_toBottomOf="@+id/tv_temp_max"
+            tools:text="80%" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_wind_speed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_large"
+            android:text="@{ viewModel.currentLocWeather.windSpeed }"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_cloud_rate"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            tools:text="3m/s" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_humidity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_large"
+            android:text="@{ viewModel.currentLocWeather.humidity }"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_wind_speed"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            tools:text="Nem: %45" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_city_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_large"
+            android:text="@{ viewModel.currentLocWeather.cityName }"
+            android:textSize="26sp"
+            app:layout_constraintBottom_toTopOf="@+id/iv_weather_icon"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            tools:text="Istanbul" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvDegree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{ viewModel.currentLocWeather.tempInCelsius }"
+            android:textSize="60sp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_city_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="39.3 " />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_weather_icon"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="120dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="2:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:src="@drawable/ic_weather_dark_clouds" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

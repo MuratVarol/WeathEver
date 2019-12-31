@@ -17,5 +17,19 @@
     <dimen name="text_size_small">12sp</dimen>
     <dimen name="text_size_medium">16sp</dimen>
     <dimen name="text_size_big">22sp</dimen>
+    <dimen name="popup_text_size">18sp</dimen>
+
+
+    <!-- CUSTOM -->
+    <dimen name="header_top_margin">40dp</dimen>
+    <dimen name="weather_icon_margin">40dp</dimen>
+    <dimen name="header_height">90dp</dimen>
+    <dimen name="header_text_horizontal_width_ratio">0.6</dimen>
+    <dimen name="height_status_bar">24dp</dimen>
+    <dimen name="height_popup_button">56dp</dimen>
+    <dimen name="text_input_radius">12dp</dimen>
+    <dimen name="hint_text_size">12sp</dimen>
+    <dimen name="error_text_size">20sp</dimen>
+    <dimen name="popup_icon_size">80sp</dimen>
 
 </resources>

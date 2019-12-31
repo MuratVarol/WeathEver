@@ -36,6 +36,10 @@ abstract class BaseAndroidViewModel : AndroidViewModel {
         _navigation.value = Event(NavigationCommand.Back)
     }
 
+    protected open fun handleFailure(failure: Failure) {
+        this._failure.value = Event(failure)
+    }
+
     protected val disposables = CompositeDisposable()
 
     override fun onCleared() {

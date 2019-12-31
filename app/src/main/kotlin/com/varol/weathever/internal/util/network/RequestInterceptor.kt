@@ -10,10 +10,10 @@ private const val KEY_UNIT = "units"
 private const val VALUE_UNIT = "metric"
 private const val KEY_LANG = "lang"
 
-
 /**
  * OkHttp interceptor for providing API_KEY to API requests for every requests.
  */
+
 class RequestInterceptor : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
