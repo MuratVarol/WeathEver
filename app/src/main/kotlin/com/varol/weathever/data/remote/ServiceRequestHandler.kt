@@ -1,5 +1,7 @@
 package com.varol.weathever.data.remote
 
+import com.google.gson.JsonParseException
+import com.squareup.moshi.JsonDataException
 import com.varol.weathever.internal.util.Failure
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -28,9 +30,17 @@ object ServiceRequestHandler {
             }
             .onErrorResumeNext { throwable: Throwable ->
                 Single.just(
-                    Either.Left(throwable as Failure)
+                    Either.Left(handleParsingErrors(throwable))
                 )
             }
-            .doOnError { throwable: Throwable -> Either.Left(throwable as Failure) }
+            .doOnError { throwable: Throwable -> Either.Left(handleParsingErrors(throwable)) }
+    }
+}
+
+private fun handleParsingErrors(throwable: Throwable): Failure {
+    return when (throwable) {
+        is JsonParseException, is JsonDataException ->
+            Failure.ParsingDataError
+        else -> Failure.UnknownError()
     }
 }

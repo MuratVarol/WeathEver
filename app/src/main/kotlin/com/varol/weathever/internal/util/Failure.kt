@@ -11,5 +11,6 @@ sealed class Failure : IOException() {
     class TimeOutError(override var message: String?) : Failure()
     object NoConnectivityError : Failure()
     object EmptyResponse : Failure()
+    object ParsingDataError : Failure()
     object IgnorableError : Failure()
 }

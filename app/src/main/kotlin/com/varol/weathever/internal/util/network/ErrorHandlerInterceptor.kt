@@ -1,5 +1,7 @@
 package com.varol.weathever.internal.util.network
 
+import com.google.gson.JsonParseException
+import com.squareup.moshi.JsonDataException
 import com.varol.weathever.internal.util.Failure
 import com.varol.weathever.internal.util.NetworkHandler
 import okhttp3.Interceptor
