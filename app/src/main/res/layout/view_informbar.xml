@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <merge
+        tools:layout_height="wrap_content"
+        tools:layout_width="match_parent"
+        tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/inform_message"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_informbar_height"
+            android:background="@drawable/background_informbar"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/padding_informbar_left"
+            android:paddingLeft="@dimen/padding_informbar_left"
+            android:paddingTop="@dimen/margin_xs"
+            android:paddingEnd="@dimen/margin_large"
+            android:paddingRight="@dimen/margin_large"
+            android:paddingBottom="@dimen/margin_xs"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_medium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Item Saved To Database Successfully." />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/inform_bar_icon"
+            android:layout_width="@dimen/size_informbar_icon"
+            android:layout_height="@dimen/size_informbar_icon"
+            android:layout_margin="@dimen/margin_medium"
+            android:scaleType="centerInside"
+            app:layout_constraintBottom_toBottomOf="@+id/inform_message"
+            app:layout_constraintStart_toStartOf="@+id/inform_message"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_pop_up_warning" />
+
+    </merge>
+
+</layout>

@@ -9,9 +9,10 @@
             type="com.varol.weathever.screen.weather.WeatherViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.varol.weathever.internal.view.RootConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:progressVisibility="@{viewModel.isLoading}">
 
         <include
             android:id="@+id/toolbar"
@@ -22,12 +23,16 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_cloud_rate"
+            style="@style/TextField.WeatherStatuses"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_large"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
+            android:drawableStart="@drawable/ic_cloud_small"
+            android:drawableLeft="@drawable/ic_cloud_small"
+            android:drawablePadding="@dimen/margin_xs"
             android:text="@{ viewModel.currentLocWeather.cloudRate }"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -35,32 +40,14 @@
             tools:text="80%" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_temp_max"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_large"
-            android:text="@{ viewModel.currentLocWeather.cloudRate }"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/tvDegree"
-            app:layout_constraintTop_toTopOf="@+id/tvDegree"
-            tools:text="80%" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_temp_min"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_large"
-            android:text="@{ viewModel.currentLocWeather.cloudRate }"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/tvDegree"
-            app:layout_constraintTop_toBottomOf="@+id/tv_temp_max"
-            tools:text="80%" />
-
-        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_wind_speed"
+            style="@style/TextField.WeatherStatuses"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_large"
+            android:drawableStart="@drawable/ic_wind"
+            android:drawableLeft="@drawable/ic_wind"
+            android:drawablePadding="@dimen/margin_xs"
             android:text="@{ viewModel.currentLocWeather.windSpeed }"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tv_cloud_rate"
@@ -69,14 +56,18 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_humidity"
+            style="@style/TextField.WeatherStatuses"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_large"
+            android:drawableStart="@drawable/ic_humidity_big"
+            android:drawableLeft="@drawable/ic_humidity_big"
+            android:drawablePadding="@dimen/margin_xs"
             android:text="@{ viewModel.currentLocWeather.humidity }"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tv_wind_speed"
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            tools:text="Nem: %45" />
+            tools:text="45%" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_city_name"
@@ -90,12 +81,46 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:text="Istanbul" />
 
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_temp_max"
+            style="@style/TextField.WeatherStatuses"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_weather_up"
+            android:drawableLeft="@drawable/ic_weather_up"
+            android:singleLine="true"
+            android:text="@{ viewModel.currentLocWeather.tempMax }"
+            app:enableCelsius="@{true}"
+            app:layout_constraintBottom_toTopOf="@+id/tv_temp_min"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvDegree"
+            app:layout_constraintTop_toTopOf="@+id/tvDegree"
+            tools:text="15.3C" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_temp_min"
+            style="@style/TextField.WeatherStatuses"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_weather_down"
+            android:drawableLeft="@drawable/ic_weather_down"
+            android:text="@{ viewModel.currentLocWeather.tempMin }"
+            app:enableCelsius="@{true}"
+            app:layout_constraintBottom_toBottomOf="@+id/tvDegree"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvDegree"
+            app:layout_constraintTop_toBottomOf="@+id/tv_temp_max"
+            tools:text="12.3C" />
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvDegree"
+            style="@style/TextField.DegreeMainScreen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{ viewModel.currentLocWeather.tempInCelsius }"
-            android:textSize="60sp"
+            android:textSize="86sp"
+            app:enableCelsius="@{true}"
             app:layout_constraintBottom_toTopOf="@+id/tv_city_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -103,16 +128,17 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_weather_icon"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_width="300dp"
+            android:layout_height="200dp"
             android:layout_marginBottom="120dp"
+            app:drawableResource="@{viewModel.currentLocWeather.weatherTypes.weatherIconDrawable}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="2:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:src="@drawable/ic_weather_dark_clouds" />
+            tools:src="@drawable/ic_wind" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.varol.weathever.internal.view.RootConstraintLayout>
 
 </layout>

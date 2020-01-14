@@ -31,5 +31,8 @@
     <dimen name="hint_text_size">12sp</dimen>
     <dimen name="error_text_size">20sp</dimen>
     <dimen name="popup_icon_size">80sp</dimen>
+    <dimen name="size_informbar_icon">48dp</dimen>
+    <dimen name="size_informbar_height">80dp</dimen>
+    <dimen name="padding_informbar_left">80dp</dimen>
 
 </resources>

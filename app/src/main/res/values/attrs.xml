@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RootConstraintLayout">
+        <attr name="exclusiveTouch" format="boolean" />
+        <attr name="touchableInProgress" format="boolean" />
+        <attr name="blurBackground" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="InformBarView">
+        <attr name="text" format="string" />
+        <attr name="informDuration" format="integer">
+            <enum name="Short" value="1" />
+            <enum name="Long" value="10" />
+        </attr>
+        <attr name="informType" format="integer">
+            <enum name="Inform" value="1" />
+            <enum name="Warning" value="10" />
+            <enum name="Error" value="100" />
+        </attr>
+    </declare-styleable>
+
+</resources>

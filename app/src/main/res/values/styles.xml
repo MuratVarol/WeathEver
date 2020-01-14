@@ -74,6 +74,19 @@
         <item name="android:textSize">@dimen/popup_text_size</item>
     </style>
 
+    <style name="TextField.WeatherStatuses" parent="TextField.Big">
+        <item name="android:fontFamily">@font/nunito_bold</item>
+        <item name="fontFamily">@font/nunito_bold</item>
+        <item name="android:textColor">@color/dark_grey</item>
+    </style>
+
+    <style name="TextField.DegreeMainScreen" parent="TextField.WeatherStatuses">
+        <item name="android:fontFamily">@font/nunito_extrabold</item>
+        <item name="fontFamily">@font/nunito_extrabold</item>
+        <item name="android:textColor">@color/light_blue</item>
+        <item name="android:textSize">86sp</item>
+    </style>
+
 
     <!--  EDITTEXT  -->
     <style name="EditText" parent="Widget.AppCompat.EditText">

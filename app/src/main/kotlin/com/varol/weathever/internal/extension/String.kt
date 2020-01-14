@@ -3,6 +3,7 @@ package com.varol.weathever.internal.extension
 import android.os.Build
 import android.text.Html
 import android.text.Spanned
+import com.varol.weathever.R
 import com.varol.weathever.internal.util.Constants.Date.ISO_8601_EXTENDED_DATETIME_TIME_ZONE_FORMAT
 import java.text.SimpleDateFormat
 import java.util.*
@@ -50,3 +51,15 @@ fun String?.emptyIfNull(): String {
 
 val String.Companion.EMPTY: String
     get() = ""
+
+fun String.appendPercentage(): String {
+    return String.format("%s %s", this, "%".padStart(0))
+}
+
+fun String.appendMeterPerSecond(): String {
+    return String.format("%s %s", this, "m/s".padStart(0))
+}
+
+fun String.appendCelsius(): String {
+    return String.format("%s %s", this, "m/s".padStart(0))
+}

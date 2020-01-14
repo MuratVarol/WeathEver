@@ -14,7 +14,8 @@
     <color name="black">#231F20</color>
     <color name="red">#D50606</color>
     <color name="light_red">#FF0000</color>
-    <color name="dark_grey">#768992</color>
+    <color name="light_grey">#768992</color>
+    <color name="dark_grey">#4E4E4E</color>
     <color name="soft_grey">#E5E5E5</color>
     <color name="shadow_grey">#19000000</color>
     <color name="light_shadow_grey">#19868686</color>
@@ -23,5 +24,8 @@
     <color name="light_blue">#00BFFF</color>
     <color name="hyperlink_gray">#505050</color>
     <color name="transparent_gray">#cc231f20</color>
+
+    <color name="gradient_dark_gray">#585858</color>
+    <color name="gradient_light_gray">#818181</color>
 
 </resources>

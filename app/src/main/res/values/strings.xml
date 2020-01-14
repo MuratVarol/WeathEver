@@ -2,4 +2,15 @@
     <string name="weathers">Weathers</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="celsius">&#8451;</string>
+
+
+    <!-- ERROR STRINGS -->
+    <string name="error_message_invalid_response">Server response is not valid</string>
+    <string name="error_message_network_connection">Be sure that device is connected to Internet</string>
+    <string name="error_message_unknown_host">Could not be reached to Server</string>
+    <string name="error_unknown">Unknown Error</string>
+    <string name="error_message_http">Unexpected error, please try again later \n (%1$s)</string>
+    <string name="error_message_timeout">Request Timeout</string>
+
 </resources>
