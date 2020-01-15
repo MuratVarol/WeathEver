@@ -21,7 +21,15 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.borusan.mannesmann.pipeline.internal.util.functional.lazyThreadSafetyNone
 import com.varol.weathever.BR
+import com.varol.weathever.R
+import com.varol.weathever.internal.extension.observeNonNull
+import com.varol.weathever.internal.extension.showPopup
 import com.varol.weathever.internal.navigation.NavigationCommand
+import com.varol.weathever.internal.popup.PopUpType
+import com.varol.weathever.internal.popup.PopupUiModel
+import com.varol.weathever.internal.util.Failure
+import com.varol.weathever.internal.view.informbar.InformBar
+import com.varol.weathever.internal.view.informbar.InformBarModel
 import dagger.android.support.DaggerFragment
 import java.lang.reflect.ParameterizedType
 import javax.inject.Inject
@@ -69,6 +77,8 @@ abstract class BaseFragment<VM : BaseAndroidViewModel, B : androidx.databinding.
         super.onActivityCreated(savedInstanceState)
 
         observeNavigation()
+        observeFailure()
+        observeInform()
     }
 
     private fun observeNavigation() {
@@ -92,6 +102,19 @@ abstract class BaseFragment<VM : BaseAndroidViewModel, B : androidx.databinding.
         }
     }
 
+    private fun observeFailure() {
+        viewModel.failure.observeNonNull(viewLifecycleOwner) {
+            it?.getContentIfNotHandled()?.let { failure -> handleFailure(failure) }
+        }
+    }
+
+    private fun observeInform() {
+        viewModel.inform.observeNonNull(viewLifecycleOwner) {
+            it.getContentIfNotHandled()?.let { informBarModel ->
+                showInformBarMessage(informBarModel)
+            }
+        }
+    }
 
     fun startInstalledAppDetailsActivity() {
         val startSettingsIntent = Intent().apply {
@@ -105,6 +128,44 @@ abstract class BaseFragment<VM : BaseAndroidViewModel, B : androidx.databinding.
         activity?.startActivity(startSettingsIntent)
     }
 
+    protected fun handleFailure(failure: Failure) {
+        val (title, message) = when (failure) {
+            is Failure.NoConnectivityError ->
+                Pair("", getString(R.string.error_message_network_connection))
+            is Failure.UnknownHostError ->
+                Pair("", getString(R.string.error_message_unknown_host))
+            is Failure.ServerError ->
+                Pair("", failure.message)
+            is Failure.ParsingDataError,
+            is Failure.EmptyResponse ->
+                Pair("", getString(R.string.error_message_invalid_response))
+            is Failure.UnknownError ->
+                Pair("", failure.message ?: getString(R.string.error_unknown))
+            is Failure.HttpError ->
+                Pair("", getString(R.string.error_message_http, failure.code.toString()))
+            is Failure.TimeOutError ->
+                Pair("", getString(R.string.error_message_timeout))
+            else ->
+                Pair("", failure.message ?: failure.toString())
+        }
+
+        showPopup(
+            PopupUiModel(
+                title = title,
+                message = message,
+                popUpType = PopUpType.Error
+            ), null
+        )
+    }
+
+
+    private fun showInformBarMessage(informBarModel: InformBarModel) {
+        view?.let {
+            with(informBarModel) {
+                InformBar.make(it, message, informType, duration).show()
+            }
+        }
+    }
 
     open fun getExtras(): FragmentNavigator.Extras = FragmentNavigatorExtras()
 

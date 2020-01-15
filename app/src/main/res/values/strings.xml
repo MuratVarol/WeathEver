@@ -3,6 +3,9 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="celsius">&#8451;</string>
+    <string name="percent">%</string>
+    <string name="meter_per_sec">m/s</string>
+    <string name="dash">-</string>
 
 
     <!-- ERROR STRINGS -->
@@ -12,5 +15,6 @@
     <string name="error_unknown">Unknown Error</string>
     <string name="error_message_http">Unexpected error, please try again later \n (%1$s)</string>
     <string name="error_message_timeout">Request Timeout</string>
+    <string name="save">Save</string>
 
 </resources>
