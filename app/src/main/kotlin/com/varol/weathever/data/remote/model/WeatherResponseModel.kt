@@ -26,7 +26,7 @@ data class CoordinationEntity(
 
 data class WeatherItemEntity(
     val id: Int,
-    val main: WeatherTypes,
+    val main: String,
     val description: String
 )
 
@@ -43,8 +43,7 @@ data class MainWeatherEntity(
 )
 
 data class WindEntity(
-    val speed: Double,
-    val deg: Int
+    val speed: Double
 )
 
 data class CloudsEntity(
