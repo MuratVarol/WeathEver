@@ -17,8 +17,8 @@ data class WeatherViewEntity(
     val humidity: String,
     val weatherTypes: WeatherTypes,
     val coordinates: CoordinationEntity,
-    val cloudRate: Int,
-    val windSpeed: Double,
+    val cloudRate: String,
+    val windSpeed: String,
     val country: String,
     val sunrise: Date,
     val sunset: Date
@@ -39,12 +39,9 @@ data class CoordinationEntity(
 
 fun weatherIconSelector(iconId: Int): Int {
     return when (iconId) {
-
         in 200..232 -> R.drawable.ic_weather_storm
 
         in 300..321, in 520..531 -> R.drawable.ic_weather_dark_rain
-
-        in 300..321 -> R.drawable.ic_weather_dark_rain
 
         in 500..504 -> R.drawable.ic_weather_sunny_rain
 

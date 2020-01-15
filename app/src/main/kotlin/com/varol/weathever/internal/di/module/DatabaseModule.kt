@@ -8,7 +8,7 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
-const val APP_DATABASE_NAME = "weather.db"
+const val APP_DATABASE_NAME = "weather_db"
 
 @Module
 class DatabaseModule {

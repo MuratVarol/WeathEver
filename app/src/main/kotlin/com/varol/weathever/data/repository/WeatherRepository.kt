@@ -9,12 +9,13 @@ import com.varol.weathever.data.local.database.model.WeatherDo
 import com.varol.weathever.data.remote.Either
 import com.varol.weathever.data.remote.datasoruce.WeatherDataSource
 import com.varol.weathever.data.remote.model.WeatherResponseModel
+import com.varol.weathever.internal.extension.appendMeterPerSecond
+import com.varol.weathever.internal.extension.appendPercentage
 import com.varol.weathever.internal.extension.toDate
-import com.varol.weathever.internal.extension.toFormattedDate
+import com.varol.weathever.internal.extension.toTimeStamp
 import com.varol.weathever.internal.util.Failure
 import io.reactivex.Flowable
 import io.reactivex.Single
-import java.util.*
 import javax.inject.Inject
 
 class WeatherRepository @Inject constructor(
@@ -30,6 +31,10 @@ class WeatherRepository @Inject constructor(
 
     fun getSavedWeathersList(): Flowable<List<WeatherDo>> {
         return weatherDao.getAllSavedWeathers()
+    }
+
+    fun saveCurrentWeatherToDb(weather: WeatherViewEntity): Single<Long> {
+        return weatherDao.insert(weather.toDoObject())
     }
 
     fun getWeatherByCityName(cityName: String): Single<WeatherDo?> {
@@ -50,11 +55,32 @@ class WeatherRepository @Inject constructor(
                 weather.first().description
             ),
             CoordinationEntity(coord.lat, coord.lon),
-            clouds.all,
-            wind.speed,
+            clouds.all.toString(),
+            wind.speed.toString(),
             sys.country,
             sys.sunrise.toDate(),
             sys.sunset.toDate()
         )
     }
+
+    private fun WeatherViewEntity.toDoObject(): WeatherDo {
+        return WeatherDo(
+            cityId,
+            cityName,
+            tempInCelsius,
+            realFeel,
+            tempMax,
+            tempMin,
+            humidity,
+            weatherTypes,
+            coordinates,
+            cloudRate,
+            windSpeed,
+            country,
+            sunrise.toTimeStamp(),
+            sunset.toTimeStamp()
+
+        )
+    }
+
 }
