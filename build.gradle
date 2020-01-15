@@ -35,12 +35,13 @@ buildscript {
             'chuck'                 : '1.1.0',
             'glide'                 : '4.8.0',
             'koin'                  : '1.0.1',
-            'room'                  : '1.1.1',
+            'room'                  : '2.2.3',
             'okio'                  : '2.0.0',
             'navigation'            : '2.2.0-rc04',
             'moshiLazy'             : '2.1',
             'andPermission'         : '2.0.1',
             'lottie'                : '3.2.2',
+            'stetho'                : '1.5.1',
 
     ]
 
@@ -139,9 +140,9 @@ buildscript {
             ],
 
             'room'               : [
-                    'base'    : "android.arch.persistence.room:runtime:1.1.1${versions.room}",
-                    'compiler': "android.arch.persistence.room:compiler:1.1.1${versions.room}",
-                    'rxJava'  : "android.arch.persistence.room:rxjava2:1.1.1${versions.room}"
+                    'base'    : "androidx.room:room-runtime:${versions.room}",
+                    'compiler': "androidx.room:room-compiler:${versions.room}",
+                    'rxJava'  : "androidx.room:room-rxjava2:${versions.room}"
             ],
 
             'glide'              : [
@@ -157,6 +158,11 @@ buildscript {
                     'auth' : "com.google.android.gms:play-services-auth:${versions.play}",
                     'maps' : "com.google.android.gms:play-services-maps:${versions.play}",
                     'location' : "com.google.android.gms:play-services-location:${versions.play}"
+            ],
+
+            'stetho' : [
+                    "com.facebook.stetho:stetho:${versions.stetho}",
+                    "com.facebook.stetho:stetho-okhttp3:${versions.stetho}",
             ]
 
 

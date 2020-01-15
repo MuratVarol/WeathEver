@@ -17,6 +17,14 @@ android {
         versionName generateVersionName()
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [
+                        "room.incremental": "true"
+                ]
+            }
+        }
     }
 
     // to support experimental extensions such as synthetic, @Parcelize etc
@@ -104,6 +112,8 @@ dependencies {
     implementation deps.andPermission
 
     implementation deps.play.location
+
+    implementation deps.stetho
 
     implementation deps.glide.main
     kapt deps.glide.compiler
