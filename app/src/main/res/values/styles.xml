@@ -7,8 +7,6 @@
         <item name="android:textSize">@dimen/button_text_size</item>
         <item name="android:fontFamily">@font/nunito_semibold</item>
         <item name="fontFamily">@font/nunito_semibold</item>
-        <item name="android:paddingLeft">@dimen/margin_medium</item>
-        <item name="android:paddingRight">@dimen/margin_medium</item>
     </style>
 
     <style name="Button.Secondary">
