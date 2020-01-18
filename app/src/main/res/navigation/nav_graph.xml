@@ -7,12 +7,21 @@
 
     <fragment
         android:id="@+id/weatherFragment"
-        android:name="com.varol.weathever.screen.weather.WeatherFragment"
-        android:label="WeatherFragment"
-        app:enterAnim="@anim/enter_presentation"
-        app:exitAnim="@anim/exit_presentation"
-        app:popEnterAnim="@anim/pop_enter_presentation"
-        app:popExitAnim="@anim/pop_exit_presentation"
-        tools:layout="@layout/fragment_weather" />
+        android:name="com.varol.weathever.screen.weather.weather_home.WeatherFragment"
+        android:label="WeatherFragment">
+        <action
+            android:id="@+id/action_weatherFragment_to_weatherListFragment"
+            app:destination="@id/weatherListFragment"
+            app:enterAnim="@anim/enter_presentation"
+            app:exitAnim="@anim/exit_presentation"
+            app:popEnterAnim="@anim/pop_enter_presentation"
+            app:popExitAnim="@anim/pop_exit_presentation"
+            tools:layout="@layout/fragment_weather" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/weatherListFragment"
+        android:name="com.varol.weathever.screen.weather.weather_list.WeatherListFragment"
+        android:label="WeatherListFragment" />
 
 </navigation>
