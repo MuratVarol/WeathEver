@@ -40,6 +40,8 @@ data class WeatherDo(
     @ColumnInfo(name = "sunrise")
     val sunrise: Long,
     @ColumnInfo(name = "sunset")
-    val sunset: Long
+    val sunset: Long,
+    @ColumnInfo(name = "fetch_time")
+    val fetchTime: Long
 
 ) : Parcelable
