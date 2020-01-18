@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="model"
+            type="com.varol.weathever.data.entity.WeatherListItemViewEntity" />
+
+        <variable
+            name="viewModel"
+            type="com.varol.weathever.screen.weather.WeatherViewModel" />
+    </data>
+
+    <com.varol.weathever.internal.view.RootConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_large"
+            android:layout_marginTop="@dimen/margin_large"
+            android:layout_marginEnd="@dimen/margin_large"
+            android:layout_marginBottom="@dimen/margin_xxs"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:onClick="@{() -> viewModel.onWeatherSelect(model.id)}"
+            app:cardCornerRadius="@dimen/radius_medium"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_small">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_city_name"
+                    style="@style/TextField.WeatherItemCity"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_small"
+                    android:gravity="center_vertical"
+                    android:maxLines="2"
+                    android:minLines="2"
+                    android:singleLine="false"
+                    android:text="@{model.city}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_degree"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Istanbul Turkey" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_date"
+                    style="@style/TextField.WeatherItemDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_xs"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/ib_refresh"
+                    app:setShortDateFormat="@{model.fetchDate}"
+                    tools:text="20 May 16:35" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_degree"
+                    style="@style/TextField.WeatherItemDegree"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    app:celsiusText="@{model.degreeInCelsius}"
+                    app:layout_constraintEnd_toStartOf="@+id/ib_refresh"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="28 C" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/ib_refresh"
+                    android:layout_width="@dimen/item_refresh_button_size"
+                    android:layout_height="@dimen/item_refresh_button_size"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:onClick="@{()-> viewModel.refreshWeatherItem(model.id)}"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_degree"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tv_degree"
+                    app:srcCompat="@drawable/ic_refresh" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/ib_delete"
+            android:layout_width="@dimen/item_delete_button_size"
+            android:layout_height="@dimen/item_delete_button_size"
+            android:layout_marginTop="@dimen/margin_xs"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:layout_marginRight="@dimen/margin_small"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:onClick="@{()-> viewModel.deleteWeatherItemFromDb(model.id)}"
+            android:scaleType="fitCenter"
+            app:isAtTheTop="@{true}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_cross" />
+
+    </com.varol.weathever.internal.view.RootConstraintLayout>
+
+</layout>

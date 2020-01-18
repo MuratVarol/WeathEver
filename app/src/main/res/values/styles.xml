@@ -44,6 +44,8 @@
     <!--  TextView  -->
     <style name="TextField" parent="Widget.AppCompat.TextView">
         <item name="android:textColor">@color/dark_grey</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
     </style>
 
     <style name="TextField.Small">
@@ -77,9 +79,27 @@
         <item name="android:textColor">@color/dark_grey</item>
     </style>
 
+    <style name="TextField.WeatherItemDegree" parent="TextField.Big">
+        <item name="android:textSize">@dimen/text_size_huge</item>
+        <item name="android:fontFamily">@font/nunito_extrabold</item>
+        <item name="fontFamily">@font/nunito_extrabold</item>
+    </style>
+
+    <style name="TextField.WeatherItemCity" parent="TextField.Big">
+        <item name="android:textSize">@dimen/text_size_bigger</item>
+        <item name="android:fontFamily">@font/nunito_bold</item>
+        <item name="fontFamily">@font/nunito_bold</item>
+    </style>
+
+    <style name="TextField.WeatherItemDate" parent="TextField.Big">
+        <item name="android:textSize">@dimen/text_size_small</item>
+        <item name="android:fontFamily">@font/nunito_bold</item>
+        <item name="fontFamily">@font/nunito_bold</item>
+    </style>
+
     <style name="TextField.DegreeMainScreen" parent="TextField.WeatherStatuses">
         <item name="android:textColor">@color/light_blue</item>
-        <item name="android:textSize">86sp</item>
+        <item name="android:textSize">@dimen/text_size_main_degree</item>
     </style>
 
 

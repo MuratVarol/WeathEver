@@ -16,6 +16,8 @@ import com.varol.weathever.internal.extension.toTimeStamp
 import com.varol.weathever.internal.util.Failure
 import io.reactivex.Flowable
 import io.reactivex.Single
+import java.time.LocalDateTime
+import java.util.*
 import javax.inject.Inject
 
 class WeatherRepository @Inject constructor(
@@ -29,12 +31,23 @@ class WeatherRepository @Inject constructor(
         }
     }
 
+    fun getWeatherByCityId(cityId: Long): Single<Either<Failure, WeatherViewEntity>> {
+        val result = weatherDataSource.getWeatherByCityId(cityId)
+        return result.map { weather ->
+            weather.transform { it.mapToViewEntity() }
+        }
+    }
+
     fun getSavedWeathersList(): Flowable<List<WeatherDo>> {
         return weatherDao.getAllSavedWeathers()
     }
 
     fun saveCurrentWeatherToDb(weather: WeatherViewEntity): Single<Long> {
         return weatherDao.insert(weather.toDoObject())
+    }
+
+    fun updateWeatherOnDb(weather: WeatherViewEntity): Single<Int> {
+        return weatherDao.update(weather.toDoObject())
     }
 
     fun getWeatherByCityName(cityName: String): Single<WeatherDo?> {
@@ -59,7 +72,8 @@ class WeatherRepository @Inject constructor(
             wind.speed.toString(),
             sys.country,
             sys.sunrise.toDate(),
-            sys.sunset.toDate()
+            sys.sunset.toDate(),
+            Calendar.getInstance().timeInMillis
         )
     }
 
@@ -78,8 +92,8 @@ class WeatherRepository @Inject constructor(
             windSpeed,
             country,
             sunrise.toTimeStamp(),
-            sunset.toTimeStamp()
-
+            sunset.toTimeStamp(),
+            fetchTime
         )
     }
 

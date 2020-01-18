@@ -11,8 +11,13 @@ interface WeatherService {
     }
 
     @GET(WEATHER)
-    fun getWeather(
+    fun getCurrentLocationWeather(
         @Query(value = "lat") lat: Double,
         @Query(value = "lon") lon: Double
+    ): Single<WeatherResponseModel>
+
+    @GET(WEATHER)
+    fun getWeatherByCityId(
+        @Query(value = "id") lat: Long
     ): Single<WeatherResponseModel>
 }
