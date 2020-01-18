@@ -13,6 +13,7 @@ fun Long?.toDate(): Date {
 fun Long?.toFormattedDate(): String? {
     if (this == null)
         return null
-    val format = SimpleDateFormat(Constants.Date.ISO_8601_EXTENDED_DATE_FORMAT, Locale.getDefault())
+    val format =
+        SimpleDateFormat(Constants.Date.DATE_FORMAT_DAY_MONTH_WEEKDAY_AND_TIME, Locale.getDefault())
     return format.format(this.toDate())
 }

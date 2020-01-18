@@ -1,7 +1,6 @@
 package com.varol.weathever.internal.extension
 
 import com.varol.weathever.internal.util.Constants
-import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -12,7 +11,7 @@ fun Date.toShortDateString(): String {
 }
 
 fun Date.toShortDateUiString(): String {
-    return SimpleDateFormat(Constants.Date.DATE_FORMAT_UI_SHORT, Locale.US)
+    return SimpleDateFormat(Constants.Date.DATE_FORMAT_UI_WITH_STRING_MONTH, Locale.US)
         .format(this)
 }
 
