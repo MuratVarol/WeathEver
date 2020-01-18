@@ -64,7 +64,11 @@ abstract class BaseFragment<VM : BaseAndroidViewModel, B : androidx.databinding.
         return navGraphViewModels(navGraphId) { viewModelFactory }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binder = DataBindingUtil.inflate(inflater, layoutId, container, false)
         binder.lifecycleOwner = viewLifecycleOwner
         binder.setVariable(BR.viewModel, viewModel)
@@ -96,6 +100,11 @@ abstract class BaseFragment<VM : BaseAndroidViewModel, B : androidx.databinding.
                     directions.let {
                         findNavController().navigate(it, getExtras())
                     }
+                }
+            }
+            is NavigationCommand.Popup -> {
+                with(command) {
+                    showPopup(model, callback)
                 }
             }
             is NavigationCommand.Back -> findNavController().navigateUp()

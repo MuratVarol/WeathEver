@@ -7,6 +7,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavDirections
 import com.varol.weathever.internal.navigation.NavigationCommand
+import com.varol.weathever.internal.popup.PopupCallback
+import com.varol.weathever.internal.popup.PopupUiModel
 import com.varol.weathever.internal.util.Event
 import com.varol.weathever.internal.util.Failure
 import com.varol.weathever.internal.view.informbar.InformBarModel
@@ -42,6 +44,10 @@ abstract class BaseAndroidViewModel : AndroidViewModel {
 
     fun navigate(directions: NavDirections) {
         _navigation.value = Event(NavigationCommand.To(directions))
+    }
+
+    fun navigate(model: PopupUiModel, callback: PopupCallback?) {
+        _navigation.value = Event(NavigationCommand.Popup(model, callback))
     }
 
     fun navigateBack() {
