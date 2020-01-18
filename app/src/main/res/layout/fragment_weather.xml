@@ -7,6 +7,10 @@
         <variable
             name="viewModel"
             type="com.varol.weathever.screen.weather.WeatherViewModel" />
+
+        <variable
+            name="callback"
+            type="com.varol.weathever.internal.listeners.ToolbarListener" />
     </data>
 
     <com.varol.weathever.internal.view.RootConstraintLayout
@@ -18,6 +22,7 @@
             android:id="@+id/toolbar"
             layout="@layout/toolbar_header"
             app:headerTitle="@{@string/weathers}"
+            app:callback="@{callback}"
             app:visibilityOfLeftButton="@{false}"
             app:visibilityOfRightButton="@{true}" />
 
@@ -140,30 +145,45 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_city_name"
             tools:src="@drawable/ic_wind" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_save"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:enabled="@{viewModel.isSaveButtonEnabled}"
             android:onClick="@{() -> viewModel.saveCurrentWeatherToDb()}"
             android:text="@string/save"
+            android:layout_margin="@dimen/margin_small"
             app:curveRadius="@{@integer/curve_radius_top}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintStart_toStartOf="parent"></Button>
+            app:layout_constraintStart_toStartOf="parent" />
 
         <ProgressBar
-            android:id="@+id/progressBackHome"
+            android:id="@+id/progress"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_margin="@dimen/margin_medium"
+            android:layout_margin="@dimen/margin_xs"
+            android:rotation="270"
             android:progress="@{viewModel.progress}"
             android:progressDrawable="@drawable/timer_circle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+        <TextView
+            android:id="@+id/tv_remaining_time"
+            style="@style/TextField.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.remainingSeconds}"
+            app:layout_constraintBottom_toBottomOf="@+id/progress"
+            app:layout_constraintEnd_toEndOf="@id/progress"
+            app:layout_constraintStart_toStartOf="@+id/progress"
+            app:layout_constraintTop_toTopOf="@id/progress"
+            tools:text="36" />
+
 
     </com.varol.weathever.internal.view.RootConstraintLayout>
 

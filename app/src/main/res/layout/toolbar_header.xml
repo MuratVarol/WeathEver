@@ -9,7 +9,6 @@
             name="headerTitle"
             type="java.lang.String" />
 
-
         <variable
             name="visibilityOfRightButton"
             type="Boolean" />
@@ -17,6 +16,10 @@
         <variable
             name="visibilityOfLeftButton"
             type="Boolean" />
+
+        <variable
+            name="callback"
+            type="com.varol.weathever.internal.listeners.ToolbarListener" />
 
     </data>
 
@@ -35,14 +38,15 @@
             android:layout_marginTop="@dimen/height_status_bar"
             android:background="@android:color/transparent"
             app:srcCompat="@drawable/ic_list"
-            app:layout_constraintBottom_toBottomOf="@+id/textViewDealerDetailHeader"
+            android:onClick="@{() -> callback.onLeftIconClicked()}"
+            app:layout_constraintBottom_toBottomOf="@+id/textHeader"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:visibility="@{visibilityOfLeftButton}"
             tools:visibility="gone" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textViewDealerDetailHeader"
+            android:id="@+id/textHeader"
             style="@style/TextField.Header"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -65,6 +69,7 @@
             android:layout_marginRight="@dimen/margin_xxl"
             android:background="@android:color/transparent"
             app:srcCompat="@drawable/ic_list"
+            android:onClick="@{() -> callback.onRightIconClicked()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
