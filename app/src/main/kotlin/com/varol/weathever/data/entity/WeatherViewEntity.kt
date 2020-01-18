@@ -9,19 +9,20 @@ import java.util.*
 @Parcelize
 data class WeatherViewEntity(
     val cityId: Long,
-    val cityName: String,
-    val tempInCelsius: String,
-    val realFeel: String,
-    val tempMax: String,
-    val tempMin: String,
-    val humidity: String,
+    val cityName: String = "-",
+    val tempInCelsius: String = "-",
+    val realFeel: String = "-",
+    val tempMax: String = "-",
+    val tempMin: String = "-",
+    val humidity: String = "-",
     val weatherTypes: WeatherTypes,
     val coordinates: CoordinationEntity,
-    val cloudRate: String,
-    val windSpeed: String,
-    val country: String,
+    val cloudRate: String = "-",
+    val windSpeed: String = "-",
+    val country: String = "-",
     val sunrise: Date,
-    val sunset: Date
+    val sunset: Date,
+    val fetchTime: Long
 ) : Parcelable
 
 @Parcelize
