@@ -16,6 +16,12 @@ class WeatherDataSource @Inject constructor(private val weatherService: WeatherS
         lat: Double,
         lon: Double
     ): Single<Either<Failure, WeatherResponseModel>> {
-        return service.sendRequest(weatherService.getWeather(lat, lon))
+        return service.sendRequest(weatherService.getCurrentLocationWeather(lat, lon))
+    }
+
+    fun getWeatherByCityId(
+        cityId: Long
+    ): Single<Either<Failure, WeatherResponseModel>> {
+        return service.sendRequest(weatherService.getWeatherByCityId(cityId))
     }
 }
