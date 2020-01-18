@@ -67,34 +67,44 @@ class RootConstraintLayout @JvmOverloads constructor(
                 null,
                 android.R.attr.progressBarStyle
             )
-            progressBar?.let {
-                it.id = ViewCompat.generateViewId()
-                it.indeterminateDrawable?.setColorFilter(
+            progressBar?.let { progress ->
+                progress.id = ViewCompat.generateViewId()
+                progress.indeterminateDrawable?.setColorFilter(
                     ContextCompat.getColor(context, R.color.colorPrimary),
                     PorterDuff.Mode.MULTIPLY
                 )
                 val layout = this as ConstraintLayout
 
-                layout.addView(it)
+                layout.addView(progress)
 
                 val constraintSet = ConstraintSet().apply {
                     clone(layout)
-                    connect(it.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END)
-                    connect(it.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
                     connect(
-                        it.id,
+                        progress.id,
+                        ConstraintSet.END,
+                        ConstraintSet.PARENT_ID,
+                        ConstraintSet.END
+                    )
+                    connect(
+                        progress.id,
+                        ConstraintSet.TOP,
+                        ConstraintSet.PARENT_ID,
+                        ConstraintSet.TOP
+                    )
+                    connect(
+                        progress.id,
                         ConstraintSet.BOTTOM,
                         ConstraintSet.PARENT_ID,
                         ConstraintSet.BOTTOM
                     )
                     connect(
-                        it.id,
+                        progress.id,
                         ConstraintSet.START,
                         ConstraintSet.PARENT_ID,
                         ConstraintSet.START
                     )
-                    constrainHeight(it.id, ConstraintSet.WRAP_CONTENT)
-                    constrainWidth(it.id, ConstraintSet.WRAP_CONTENT)
+                    constrainHeight(progress.id, ConstraintSet.WRAP_CONTENT)
+                    constrainWidth(progress.id, ConstraintSet.WRAP_CONTENT)
                 }
                 constraintSet.applyTo(layout)
             }
