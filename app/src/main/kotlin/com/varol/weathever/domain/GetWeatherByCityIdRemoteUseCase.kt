@@ -7,12 +7,12 @@ import com.varol.weathever.internal.util.Failure
 import io.reactivex.Single
 import javax.inject.Inject
 
-class GetWeatherByCityIdUseCase @Inject constructor(
+class GetWeatherByCityIdRemoteUseCase @Inject constructor(
     private val weatherRepository: WeatherRepository
 ) {
     fun getWeatherByCityId(
         cityId: Long
     ): Single<Either<Failure, WeatherViewEntity>> {
-        return weatherRepository.getWeatherByCityId(cityId)
+        return weatherRepository.getWeatherByCityIdRemote(cityId)
     }
 }

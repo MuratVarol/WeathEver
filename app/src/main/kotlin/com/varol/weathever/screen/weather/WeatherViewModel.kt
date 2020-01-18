@@ -23,8 +23,9 @@ class WeatherViewModel @Inject constructor(
     private val weatherByLoc: GetLocationWeatherUseCase,
     private val saveWeather: SaveCurrentWeatherToDbUseCase,
     private val savedWeathers: GetSavedWeatherListUseCase,
-    private val weatherByCityId: GetWeatherByCityIdUseCase,
-    private val updateWeather: UpdateWeatherOnDbUseCase
+    private val weatherByCityIdRemote: GetWeatherByCityIdRemoteUseCase,
+    private val updateWeather: UpdateWeatherOnDbUseCase,
+    private val weatherByCityIdLocal: GetWeatherByCityIdLocalUseCase
 ) : BaseAndroidViewModel(context) {
 
     val currentLocWeather = MutableLiveData<WeatherViewEntity>()
@@ -100,14 +101,23 @@ class WeatherViewModel @Inject constructor(
     fun refreshWeatherItem(id: Long) {
         showProgress()
         disposables.add(
-            weatherByCityId.getWeatherByCityId(id)
+            weatherByCityIdRemote.getWeatherByCityId(id)
                 .subscribe { value -> value.either(::handleFailure, ::handleUpdatedWeather) }
         )
     }
 
     private fun handleUpdatedWeather(weatherViewEntity: WeatherViewEntity) {
         hideProgress()
-        updateWeather.updateWeatherOnDb(weatherViewEntity)
+        disposables.add(
+            updateWeather.updateWeatherOnDb(weatherViewEntity)
+                .observeOn(getMainThreadScheduler())
+                .subscribeOn(getBackgroundScheduler())
+                .subscribe({
+                    showInformBar("Updated Weather successfully saved to DB")
+                }, {
+                    showInformBar("Can not save updated Weather to DB")
+                })
+        )
     }
 
 
@@ -118,7 +128,7 @@ class WeatherViewModel @Inject constructor(
                 saveWeather.saveWeatherToDb(weather)
                     .observeOn(getMainThreadScheduler())
                     .subscribeOn(getBackgroundScheduler())
-                    .subscribe({ rowIndex ->
+                    .subscribe({
                         showInformBar("Saved")
                     }, { ex ->
                         showErrorBar(ex.localizedMessage)
@@ -150,6 +160,19 @@ class WeatherViewModel @Inject constructor(
     }
 
     fun onWeatherSelect(cityId: Long) {
+        showProgress()
+        disposables.add(
+            weatherByCityIdLocal.getWeatherByCityId(cityId)
+                .observeOn(getMainThreadScheduler())
+                .subscribeOn(getBackgroundScheduler())
+                .subscribe({ weather ->
+                    hideProgress()
+                    showInformBar(weather.cityName.toString())
+                }, { ex ->
+                    showErrorBar(ex.localizedMessage)
+                })
+
+        )
 
     }
 }

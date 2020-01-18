@@ -13,4 +13,7 @@ interface WeatherDao : BaseDao<WeatherDo> {
 
     @Query("SELECT * FROM tb_weathers WHERE city = :city")
     fun getWeatherByName(city: String): Single<WeatherDo?>
+
+    @Query("SELECT * FROM tb_weathers WHERE id = :cityId")
+    fun getWeatherByCityId(cityId: Long): Single<WeatherDo?>
 }

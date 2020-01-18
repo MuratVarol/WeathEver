@@ -31,10 +31,17 @@ class WeatherRepository @Inject constructor(
         }
     }
 
-    fun getWeatherByCityId(cityId: Long): Single<Either<Failure, WeatherViewEntity>> {
+    fun getWeatherByCityIdRemote(cityId: Long): Single<Either<Failure, WeatherViewEntity>> {
         val result = weatherDataSource.getWeatherByCityId(cityId)
         return result.map { weather ->
             weather.transform { it.mapToViewEntity() }
+        }
+    }
+
+    fun getWeatherByCityIdLocal(cityId: Long): Single<WeatherViewEntity> {
+        val result = weatherDao.getWeatherByCityId(cityId)
+        return result.map { weather ->
+            weather.toViewEntity()
         }
     }
 
@@ -93,6 +100,26 @@ class WeatherRepository @Inject constructor(
             country,
             sunrise.toTimeStamp(),
             sunset.toTimeStamp(),
+            fetchTime
+        )
+    }
+
+    private fun WeatherDo.toViewEntity(): WeatherViewEntity {
+        return WeatherViewEntity(
+            cityId,
+            cityName,
+            tempInCelsius,
+            realFeel,
+            tempMax,
+            tempMin,
+            humidity,
+            weatherTypes,
+            coordinates,
+            cloudRate,
+            windSpeed,
+            country,
+            sunrise.toDate(),
+            sunset.toDate(),
             fetchTime
         )
     }
