@@ -25,7 +25,8 @@ class WeatherViewModel @Inject constructor(
     private val savedWeathers: GetSavedWeatherListUseCase,
     private val weatherByCityIdRemote: GetWeatherByCityIdRemoteUseCase,
     private val updateWeather: UpdateWeatherOnDbUseCase,
-    private val weatherByCityIdLocal: GetWeatherByCityIdLocalUseCase
+    private val weatherByCityIdLocal: GetWeatherByCityIdLocalUseCase,
+    private val deleteWeather: DeleteWeatherFromDbUseCase
 ) : BaseAndroidViewModel(context) {
 
     val currentLocWeather = MutableLiveData<WeatherViewEntity>()
@@ -80,21 +81,33 @@ class WeatherViewModel @Inject constructor(
         remainingSeconds.postValue(PERIODIC_FETCH_INTERVAL.toString())
     }
 
-    fun deleteWeatherItemFromDb(id: Long) {
+    fun deleteWeatherItemFromDb(weatherItem: WeatherListItemViewEntity) {
         navigate(
             PopupUiModel(
-                message = "$id'li kayıt silinecektir!\nEmin misiniz?",
+                message = "${weatherItem.city} will be deleted!\nAre you sure?",
                 addCancelButton = true
             ),
             object : PopupCallback {
                 override fun onConfirmClick() {
-                    showInformBar("onConfirmClick: $id")
-                }
-
-                override fun onCancelClick() {
-                    showInformBar("onCancelClick: $id")
+                    deleteWeatherFromDbByCityId(weatherItem)
                 }
             }
+        )
+    }
+
+    fun deleteWeatherFromDbByCityId(weather: WeatherListItemViewEntity) {
+        showProgress()
+        disposables.add(
+            deleteWeather.deleteWeatherFromDbByCityId(weather.id)
+                .observeOn(getMainThreadScheduler())
+                .subscribeOn(getBackgroundScheduler())
+                .subscribe({
+                    hideProgress()
+                    showInformBar("${weather.city} deleted successfully")
+                }, {
+                    hideProgress()
+                    showErrorBar("${weather.city} can not delete from DB")
+                })
         )
     }
 
@@ -113,9 +126,9 @@ class WeatherViewModel @Inject constructor(
                 .observeOn(getMainThreadScheduler())
                 .subscribeOn(getBackgroundScheduler())
                 .subscribe({
-                    showInformBar("Updated Weather successfully saved to DB")
+                    showInformBar("Updated Weather saved to DB")
                 }, {
-                    showInformBar("Can not save updated Weather to DB")
+                    showErrorBar("Updated Weather can not be saved")
                 })
         )
     }

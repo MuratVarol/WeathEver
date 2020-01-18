@@ -53,6 +53,14 @@ class WeatherRepository @Inject constructor(
         return weatherDao.insert(weather.toDoObject())
     }
 
+    fun deleteWeatherFromDbByCityId(cityId: Long): Single<Int> {
+        return weatherDao.deleteWeatherByCityId(cityId)
+    }
+
+    fun deleteWeatherFromDb(weather: WeatherViewEntity): Single<Int> {
+        return weatherDao.delete(weather.toDoObject())
+    }
+
     fun updateWeatherOnDb(weather: WeatherViewEntity): Single<Int> {
         return weatherDao.update(weather.toDoObject())
     }
