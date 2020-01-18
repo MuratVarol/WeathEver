@@ -11,14 +11,15 @@ import android.text.style.RelativeSizeSpan
 import android.view.View
 import android.view.ViewOutlineProvider
 import androidx.annotation.DrawableRes
-import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.ViewCompat
 import androidx.databinding.BindingAdapter
 import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
 import com.varol.weathever.R
+import com.varol.weathever.internal.extension.toFormattedDate
 import com.varol.weathever.internal.extension.toShortDateUiString
 import com.varol.weathever.internal.view.CustomTypefaceSpan
 import com.varol.weathever.internal.view.RootConstraintLayout
@@ -37,9 +38,20 @@ fun View.hideIfNull(value: Any?) {
     visibility = if (value == null) View.GONE else View.VISIBLE
 }
 
+@BindingAdapter("isAtTheTop")
+fun View.bringToFront(value: Boolean) {
+    if (value)
+        ViewCompat.setTranslationZ(this, 100f)
+}
+
 @BindingAdapter("setShortDateFormat", requireAll = true)
 fun AppCompatTextView.setDateTextView(date: Date?) {
     text = date?.toShortDateUiString()
+}
+
+@BindingAdapter("setShortDateFormat", requireAll = true)
+fun AppCompatTextView.setDateTextView(timeInMillis: Long?) {
+    text = timeInMillis?.toFormattedDate()
 }
 
 @BindingAdapter("celsiusText")
