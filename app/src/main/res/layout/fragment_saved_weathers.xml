@@ -18,9 +18,9 @@
         <include
             android:id="@+id/toolbar"
             layout="@layout/toolbar_header"
-            app:headerTitle="@{@string/weathers}"
+            app:headerTitle="@{@string/saved_weather_list}"
             app:visibilityOfLeftButton="@{false}"
-            app:visibilityOfRightButton="@{true}" />
+            app:visibilityOfRightButton="@{false}" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_weathers"

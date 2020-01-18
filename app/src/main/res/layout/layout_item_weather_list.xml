@@ -108,7 +108,7 @@
             android:layout_marginEnd="@dimen/margin_small"
             android:layout_marginRight="@dimen/margin_small"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:onClick="@{()-> viewModel.deleteWeatherItemFromDb(model.id)}"
+            android:onClick="@{()-> viewModel.deleteWeatherItemFromDb(model)}"
             android:scaleType="fitCenter"
             app:isAtTheTop="@{true}"
             app:layout_constraintEnd_toEndOf="parent"
