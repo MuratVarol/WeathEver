@@ -96,7 +96,7 @@
             app:layout_constraintTop_toBottomOf="@+id/scroll_view_popup_message"
             tools:visibility="gone">
 
-            <androidx.appcompat.widget.AppCompatEditText
+            <EditText
                 android:id="@+id/edit_text_popup"
                 style="@style/EditText.PopupInput"
                 android:layout_width="match_parent"

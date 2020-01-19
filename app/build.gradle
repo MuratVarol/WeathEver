@@ -96,6 +96,7 @@ dependencies {
     implementation deps.androidx.lifeCycle
     implementation deps.androidx.liveData
     implementation deps.androidx.navigation
+    implementation deps.androidx.cardView
 
     implementation deps.okhttp.client
 

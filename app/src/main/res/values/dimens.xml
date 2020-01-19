@@ -19,7 +19,7 @@
     <dimen name="text_size_big">22sp</dimen>
     <dimen name="text_size_bigger">28sp</dimen>
     <dimen name="text_size_huge">34sp</dimen>
-    <dimen name="text_size_main_degree">86sp</dimen>
+    <dimen name="text_size_main_degree">72sp</dimen>
     <dimen name="popup_text_size">18sp</dimen>
 
 
@@ -30,6 +30,7 @@
     <dimen name="header_text_horizontal_width_ratio">0.6</dimen>
     <dimen name="height_status_bar">24dp</dimen>
     <dimen name="height_popup_button">56dp</dimen>
+    <dimen name="height_search_card_view">50dp</dimen>
     <dimen name="text_input_radius">12dp</dimen>
     <dimen name="hint_text_size">12sp</dimen>
     <dimen name="error_text_size">20sp</dimen>
@@ -39,5 +40,6 @@
     <dimen name="padding_informbar_left">80dp</dimen>
     <dimen name="item_refresh_button_size">35dp</dimen>
     <dimen name="item_delete_button_size">25dp</dimen>
+    <dimen name="progress_timer_size">40dp</dimen>
 
 </resources>

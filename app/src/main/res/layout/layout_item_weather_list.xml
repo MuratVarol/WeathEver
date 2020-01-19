@@ -21,15 +21,14 @@
         android:layout_height="wrap_content">
 
         <androidx.cardview.widget.CardView
+            style="@style/CardView.ListItem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_large"
             android:layout_marginTop="@dimen/margin_large"
             android:layout_marginEnd="@dimen/margin_large"
             android:layout_marginBottom="@dimen/margin_xxs"
-            android:background="?attr/selectableItemBackgroundBorderless"
             android:onClick="@{() -> viewModel.onWeatherSelect(model.id)}"
-            app:cardCornerRadius="@dimen/radius_medium"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

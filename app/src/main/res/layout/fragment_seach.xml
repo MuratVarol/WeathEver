@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.varol.weathever.screen.weather.WeatherViewModel" />
+    </data>
+
+    <com.varol.weathever.internal.view.RootConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        app:progressVisibility="@{viewModel.isLoading}">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar_header"
+            app:headerTitle="@{@string/search_for_location}"
+            app:visibilityOfLeftButton="@{false}"
+            app:visibilityOfRightButton="@{false}" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_search"
+            style="@style/CardView.Search"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_search_card_view"
+            android:layout_margin="@dimen/margin_medium"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                style="@style/InputFieldText.SingleLine.Search"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/margin_xxs"
+                android:hint="@string/hint_start_typing_for_cities"
+                android:paddingStart="@dimen/margin_medium"
+                android:paddingLeft="@dimen/margin_large"
+                android:paddingEnd="@dimen/margin_medium"
+                android:paddingRight="@dimen/margin_medium"
+                android:text="@={ viewModel.searchText }"
+                tools:text="" />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_weathers"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/margin_medium"
+            app:itemLayoutId="@{@layout/layout_item_weather_list}"
+            app:itemList="@{viewModel.savedWeatherList}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cv_search"
+            app:viewModel="@{viewModel}"
+            tools:listitem="@layout/layout_item_weather_list" />
+
+    </com.varol.weathever.internal.view.RootConstraintLayout>
+
+</layout>

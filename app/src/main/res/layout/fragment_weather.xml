@@ -26,6 +26,63 @@
             app:visibilityOfLeftButton="@{false}"
             app:visibilityOfRightButton="@{true}" />
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_location"
+            style="@style/CardView.Search"
+            android:layout_width="@dimen/height_search_card_view"
+            android:layout_height="@dimen/height_search_card_view"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:layout_marginRight="@dimen/margin_medium"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/cv_search"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/margin_medium"
+                app:setGoButtonIfQueryNotBlank="@{viewModel.searchText}"
+                app:srcCompat="@drawable/ic_location" />
+
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_search"
+            style="@style/CardView.Search"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_search_card_view"
+            android:layout_margin="@dimen/margin_medium"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintEnd_toStartOf="@+id/cv_location"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                style="@style/InputFieldText.SingleLine.Search"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/margin_xxs"
+                android:hint="@string/hint_start_typing_for_cities"
+                android:paddingStart="@dimen/margin_medium"
+                android:paddingLeft="@dimen/margin_large"
+                android:paddingEnd="@dimen/margin_medium"
+                android:paddingRight="@dimen/margin_medium"
+                android:text="@={ viewModel.searchText }"
+                app:drawableLeftCompat="@drawable/ic_search"
+                app:drawableStartCompat="@drawable/ic_search"
+                app:hideKeyboardOnLostFocus="@{true}"
+                app:query="@{viewModel.searchText}"
+                tools:text="" />
+
+        </androidx.cardview.widget.CardView>
+
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_cloud_rate"
             style="@style/TextField.WeatherStatuses"
@@ -35,12 +92,12 @@
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
-            android:drawableStart="@drawable/ic_cloud_small"
-            android:drawableLeft="@drawable/ic_cloud_small"
+            app:drawableLeftCompat="@drawable/ic_cloud_small"
+            app:drawableStartCompat="@drawable/ic_cloud_small"
             android:drawablePadding="@dimen/margin_xs"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintTop_toBottomOf="@+id/cv_search"
             app:percentText="@{ viewModel.currentLocWeather.cloudRate }"
             tools:text="80%" />
 
@@ -50,8 +107,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_large"
-            android:drawableStart="@drawable/ic_wind"
-            android:drawableLeft="@drawable/ic_wind"
+            app:drawableLeftCompat="@drawable/ic_wind"
+            app:drawableStartCompat="@drawable/ic_wind"
             android:drawablePadding="@dimen/margin_xs"
             app:layout_constraintBaseline_toBaselineOf="@+id/tv_cloud_rate"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -65,8 +122,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_large"
-            android:drawableStart="@drawable/ic_humidity_big"
-            android:drawableLeft="@drawable/ic_humidity_big"
+            app:drawableLeftCompat="@drawable/ic_humidity_big"
+            app:drawableStartCompat="@drawable/ic_humidity_big"
             android:drawablePadding="@dimen/margin_xs"
             app:layout_constraintBaseline_toBaselineOf="@+id/tv_cloud_rate"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -94,8 +151,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginLeft="@dimen/margin_medium"
-            android:drawableStart="@drawable/ic_weather_up"
-            android:drawableLeft="@drawable/ic_weather_up"
+            app:drawableLeftCompat="@drawable/ic_weather_up"
+            app:drawableStartCompat="@drawable/ic_weather_up"
             android:singleLine="true"
             app:celsiusText="@{ viewModel.currentLocWeather.tempMax }"
             app:layout_constraintBottom_toTopOf="@+id/tv_temp_min"
@@ -109,8 +166,8 @@
             style="@style/TextField.WeatherStatuses"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_weather_down"
-            android:drawableLeft="@drawable/ic_weather_down"
+            app:drawableLeftCompat="@drawable/ic_weather_down"
+            app:drawableStartCompat="@drawable/ic_weather_down"
             app:celsiusText="@{ viewModel.currentLocWeather.tempMin }"
             app:layout_constraintBottom_toBottomOf="@+id/tvDegree"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -124,7 +181,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_xxl"
-            android:textSize="86sp"
+            android:textSize="@dimen/text_size_main_degree"
             app:celsiusText="@{ viewModel.currentLocWeather.tempInCelsius }"
             app:layout_constraintEnd_toStartOf="@+id/tv_temp_max"
             app:layout_constraintStart_toStartOf="parent"
@@ -134,10 +191,11 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_weather_icon"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_margin="@dimen/margin_xxl"
             app:drawableResource="@{viewModel.currentLocWeather.weatherTypes.weatherIconDrawable}"
+            app:layout_constraintBottom_toTopOf="@+id/button_save"
             app:layout_constraintDimensionRatio="3:2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -162,14 +220,17 @@
         <ProgressBar
             android:id="@+id/progress"
             style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_margin="@dimen/margin_xs"
-            android:rotation="270"
+            android:layout_width="@dimen/progress_timer_size"
+            android:layout_height="@dimen/progress_timer_size"
+            android:layout_marginEnd="@dimen/margin_xs"
+            android:layout_marginRight="@dimen/margin_xs"
             android:progress="@{viewModel.progress}"
             android:progressDrawable="@drawable/timer_circle"
+            android:rotation="270"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_cloud_rate"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintTop_toTopOf="@+id/tv_cloud_rate" />
 
         <TextView
             android:id="@+id/tv_remaining_time"

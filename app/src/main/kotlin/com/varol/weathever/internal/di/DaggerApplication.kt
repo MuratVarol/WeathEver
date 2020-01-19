@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Application
 import android.app.Service
 import androidx.fragment.app.Fragment
+import androidx.multidex.MultiDexApplication
 import com.varol.weathever.internal.di.component.DaggerAppComponent
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
@@ -12,7 +13,7 @@ import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
 
 abstract class DaggerApplication :
-        Application(),
+    MultiDexApplication(),
         HasActivityInjector,
         HasServiceInjector,
         HasSupportFragmentInjector {

@@ -6,7 +6,9 @@
     <string name="percent">%</string>
     <string name="meter_per_sec">m/s</string>
     <string name="dash">-</string>
-
+    <string name="saved_weather_list">Saved Weathers</string>
+    <string name="search_for_location">Search For Location</string>
+    <string name="hint_start_typing_for_cities">Start typing for cities</string>
 
     <!-- ERROR STRINGS -->
     <string name="error_message_invalid_response">Server response is not valid</string>

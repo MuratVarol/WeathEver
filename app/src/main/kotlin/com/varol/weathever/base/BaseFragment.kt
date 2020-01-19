@@ -1,7 +1,11 @@
 package com.varol.weathever.base
 
+import android.annotation.SuppressLint
+import android.content.Context.LOCATION_SERVICE
 import android.content.Intent
+import android.location.LocationManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.view.LayoutInflater
@@ -24,6 +28,7 @@ import com.varol.weathever.BR
 import com.varol.weathever.R
 import com.varol.weathever.internal.extension.observeNonNull
 import com.varol.weathever.internal.extension.showPopup
+import com.varol.weathever.internal.extension.showToast
 import com.varol.weathever.internal.navigation.NavigationCommand
 import com.varol.weathever.internal.popup.PopUpType
 import com.varol.weathever.internal.popup.PopupUiModel
@@ -170,10 +175,33 @@ abstract class BaseFragment<VM : BaseAndroidViewModel, B : androidx.databinding.
 
     private fun showInformBarMessage(informBarModel: InformBarModel) {
         view?.let {
-            with(informBarModel) {
-                InformBar.make(it, message, informType, duration).show()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                with(informBarModel) {
+                    InformBar.make(it, message, informType, duration).show()
+                }
+            } else {
+                context.showToast(informBarModel.message)
+            }
+
+        }
+    }
+
+    @SuppressLint("InlinedApi")
+    fun isLocationEnabled(): Boolean {
+        context?.let { ctx ->
+            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                val lm =
+                    ctx.getSystemService(LOCATION_SERVICE) as LocationManager
+                lm.isLocationEnabled
+            } else { // This is Deprecated in API 28
+                val mode = Settings.Secure.getInt(
+                    ctx.contentResolver, Settings.Secure.LOCATION_MODE,
+                    Settings.Secure.LOCATION_MODE_OFF
+                )
+                mode != Settings.Secure.LOCATION_MODE_OFF
             }
         }
+        return false
     }
 
     open fun getExtras(): FragmentNavigator.Extras = FragmentNavigatorExtras()

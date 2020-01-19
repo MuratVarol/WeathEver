@@ -8,23 +8,31 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.RelativeSizeSpan
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewOutlineProvider
+import android.widget.EditText
+import android.widget.ImageView
 import androidx.annotation.DrawableRes
+import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
+import androidx.core.view.marginLeft
 import androidx.databinding.BindingAdapter
 import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
 import com.varol.weathever.R
+import com.varol.weathever.internal.extension.EMPTY
+import com.varol.weathever.internal.extension.hideKeyboard
 import com.varol.weathever.internal.extension.toFormattedDate
 import com.varol.weathever.internal.extension.toShortDateUiString
 import com.varol.weathever.internal.view.CustomTypefaceSpan
 import com.varol.weathever.internal.view.RootConstraintLayout
 import java.util.*
 
+private const val DRAWABLE_LEFT = 0
 
 @BindingAdapter("visibility", "gone", requireAll = false)
 fun View.setVisibility(visible: Boolean, isGone: Boolean = true) {
@@ -129,6 +137,50 @@ private fun String.spanLastWord(context: Context): Spanned {
     }
     return span
 }
+
+
+@BindingAdapter("query")
+fun AppCompatEditText.onSearchQueryChanged(
+    query: String?
+) {
+
+    val drawableRes = if (query.isNullOrEmpty()) R.drawable.ic_search else R.drawable.ic_cancel_mono
+
+    setCompoundDrawablesWithIntrinsicBounds(drawableRes, 0, 0, 0)
+    setOnTouchListener(object : View.OnTouchListener {
+        override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+            if (event?.action == MotionEvent.ACTION_UP &&
+                event.x <= (compoundDrawables[DRAWABLE_LEFT].bounds.width() + paddingLeft + marginLeft)
+            ) {
+                setText(String.EMPTY)
+                return true
+            }
+            return false
+        }
+    })
+}
+
+
+@BindingAdapter("hideKeyboardOnLostFocus")
+fun AppCompatEditText.hideKeyboardOnLostFocus(
+    closable: Boolean
+) {
+    if (closable) {
+        setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus)
+                hideKeyboard()
+        }
+    }
+}
+
+@BindingAdapter("setGoButtonIfQueryNotBlank")
+fun AppCompatImageView.setIconResource(
+    query: String?
+) {
+    val drawableRes = if (query.isNullOrEmpty()) R.drawable.ic_location else R.drawable.ic_search
+    setImageResource(drawableRes)
+}
+
 
 @BindingAdapter("lottieFile")
 fun LottieAnimationView.setLottieFile(resource: String) {

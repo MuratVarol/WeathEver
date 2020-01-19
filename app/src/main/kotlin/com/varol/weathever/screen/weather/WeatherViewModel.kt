@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 private const val CONST_HUNDRED = 100
 
-const val PERIODIC_FETCH_INTERVAL = 15L // a minute
+const val PERIODIC_FETCH_INTERVAL = 60L // a minute
 
 class WeatherViewModel @Inject constructor(
     context: Context,
@@ -33,8 +33,10 @@ class WeatherViewModel @Inject constructor(
     val isSaveButtonEnabled = SingleLiveData<Boolean>()
         .apply { value = false }
     val progress = MutableLiveData<Int>()
+    val searchText = MutableLiveData<String>()
     val savedWeatherList = MutableLiveData<MutableList<WeatherListItemViewEntity>>()
     val remainingSeconds = MutableLiveData<String>()
+
     val timerDisposableComposite = CompositeDisposable()
 
     fun getWeatherByLocation(lat: Double, lon: Double) {

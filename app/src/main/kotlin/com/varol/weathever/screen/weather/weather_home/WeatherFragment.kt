@@ -13,7 +13,6 @@ import com.varol.weathever.R
 import com.varol.weathever.base.BaseFragment
 import com.varol.weathever.databinding.FragmentWeatherBinding
 import com.varol.weathever.internal.extension.showPopup
-import com.varol.weathever.internal.extension.showToast
 import com.varol.weathever.internal.listeners.ToolbarListener
 import com.varol.weathever.internal.popup.PopupCallback
 import com.varol.weathever.internal.popup.PopupUiModel
@@ -52,6 +51,7 @@ class WeatherFragment : BaseFragment<WeatherViewModel, FragmentWeatherBinding>()
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        //TODO: this is not best approach but works for now, fix it with better approach later
         // we have the data, so we have loc.
         // no need to set loc listener and fetch data on return of list fragment
         if (viewModel.currentLocWeather.value != null)
@@ -72,7 +72,7 @@ class WeatherFragment : BaseFragment<WeatherViewModel, FragmentWeatherBinding>()
     }
 
     private fun setLocationListenerIfGpsEnabled() {
-        if (locationManager?.isLocationEnabled == true) {
+        if (isLocationEnabled()) {
             setLocationListener()
         } else {
             showEnableGPSDialog()
@@ -84,13 +84,10 @@ class WeatherFragment : BaseFragment<WeatherViewModel, FragmentWeatherBinding>()
             fusedLocationClient = LocationServices
                 .getFusedLocationProviderClient(activity).apply {
                     lastLocation.addOnSuccessListener { location: Location? ->
-                        location?.let {
-                            context.showToast(it.latitude.toString() + " " + location.longitude.toString())
-                            viewModel.getWeatherByLocation(
-                                it.latitude,
-                                it.longitude
-                            )
-                        }
+                        viewModel.getWeatherByLocation(
+                            -33.8568022,
+                            151.2143847
+                        )
                     }
                 }
         } ?: kotlin.run {
@@ -146,6 +143,27 @@ class WeatherFragment : BaseFragment<WeatherViewModel, FragmentWeatherBinding>()
             object : PopupCallback {
                 override fun onConfirmClick() {
                     startInstalledAppDetailsActivity()
+                }
+            }
+        )
+    }
+
+    private fun showUnableToInitLocationManagerDialog() {
+        showPopup(
+            PopupUiModel(
+                message = "Unable to get GPS data, Do you want to continue with Location of Sydney Opera House?",
+                addCancelButton = true
+            ),
+            object : PopupCallback {
+                override fun onConfirmClick() {
+                    viewModel.getWeatherByLocation(
+                        -33.8568022,
+                        151.2143847
+                    )
+                }
+
+                override fun onCancelClick() {
+                    viewModel.showErrorBar("Are you sure device has GPS?")
                 }
             }
         )
