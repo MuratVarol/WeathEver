@@ -1,5 +1,6 @@
 # WeathEver
 Weather app with Kotlin and clean architecture.
+
 Kotlin,
 ViewModel,
 Retrofit,
