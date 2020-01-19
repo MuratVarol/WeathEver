@@ -6,6 +6,7 @@ import com.varol.weathever.base.BaseAndroidViewModel
 import com.varol.weathever.data.entity.WeatherListItemViewEntity
 import com.varol.weathever.data.entity.WeatherViewEntity
 import com.varol.weathever.domain.*
+import com.varol.weathever.internal.extension.EMPTY
 import com.varol.weathever.internal.popup.PopupCallback
 import com.varol.weathever.internal.popup.PopupUiModel
 import com.varol.weathever.internal.util.SingleLiveData
@@ -26,14 +27,16 @@ class WeatherViewModel @Inject constructor(
     private val weatherByCityIdRemote: GetWeatherByCityIdRemoteUseCase,
     private val updateWeather: UpdateWeatherOnDbUseCase,
     private val weatherByCityIdLocal: GetWeatherByCityIdLocalUseCase,
-    private val deleteWeather: DeleteWeatherFromDbUseCase
+    private val deleteWeather: DeleteWeatherFromDbUseCase,
+    private val weatherByCityName: GetWeatherByCityNameUseCase
 ) : BaseAndroidViewModel(context) {
 
     val currentLocWeather = MutableLiveData<WeatherViewEntity>()
     val isSaveButtonEnabled = SingleLiveData<Boolean>()
         .apply { value = false }
     val progress = MutableLiveData<Int>()
-    val searchText = MutableLiveData<String>()
+    val isProgressVisible = MutableLiveData<Boolean>().apply { value = true }
+    val searchText = MutableLiveData<String>().apply { value = String.EMPTY }
     val savedWeatherList = MutableLiveData<MutableList<WeatherListItemViewEntity>>()
     val remainingSeconds = MutableLiveData<String>()
 
@@ -41,8 +44,18 @@ class WeatherViewModel @Inject constructor(
 
     fun getWeatherByLocation(lat: Double, lon: Double) {
         showProgress()
+        resetProgressStatus()
         disposables.add(
             weatherByLoc.getWeatherByLocation(lat, lon)
+                .subscribe { value -> value.either(::handleFailure, ::handleSuccessGetLocWeather) }
+        )
+    }
+
+    fun getWeatherByCityName(query: String) {
+        showProgress()
+        cancelTimer()
+        disposables.add(
+            weatherByCityName.getWeatherByCityName(query)
                 .subscribe { value -> value.either(::handleFailure, ::handleSuccessGetLocWeather) }
         )
     }
@@ -78,9 +91,15 @@ class WeatherViewModel @Inject constructor(
         timerDisposableComposite.add(disposable)
     }
 
+    private fun cancelTimer() {
+        isProgressVisible.postValue(false)
+        timerDisposableComposite.clear()
+    }
+
     fun resetProgressStatus() {
         progress.postValue(CONST_HUNDRED)
         remainingSeconds.postValue(PERIODIC_FETCH_INTERVAL.toString())
+        isProgressVisible.postValue(true)
     }
 
     fun deleteWeatherItemFromDb(weatherItem: WeatherListItemViewEntity) {
@@ -135,7 +154,6 @@ class WeatherViewModel @Inject constructor(
         )
     }
 
-
     fun saveCurrentWeatherToDb() {
         currentLocWeather.value?.let { weather ->
             showProgress()
@@ -182,7 +200,7 @@ class WeatherViewModel @Inject constructor(
                 .subscribeOn(getBackgroundScheduler())
                 .subscribe({ weather ->
                     hideProgress()
-                    showInformBar(weather.cityName.toString())
+                    showInformBar(weather.cityName)
                 }, { ex ->
                     showErrorBar(ex.localizedMessage)
                 })

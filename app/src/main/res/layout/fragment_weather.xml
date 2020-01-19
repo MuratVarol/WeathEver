@@ -64,6 +64,7 @@
             app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
             <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/tv_search"
                 style="@style/InputFieldText.SingleLine.Search"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -227,6 +228,7 @@
             android:progress="@{viewModel.progress}"
             android:progressDrawable="@drawable/timer_circle"
             android:rotation="270"
+            app:visibility="@{viewModel.isProgressVisible}"
             app:layout_constraintBottom_toBottomOf="@+id/tv_cloud_rate"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
@@ -238,6 +240,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{viewModel.remainingSeconds}"
+            app:visibility="@{viewModel.isProgressVisible}"
             app:layout_constraintBottom_toBottomOf="@+id/progress"
             app:layout_constraintEnd_toEndOf="@id/progress"
             app:layout_constraintStart_toStartOf="@+id/progress"

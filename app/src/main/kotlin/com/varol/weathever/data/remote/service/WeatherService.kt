@@ -18,6 +18,11 @@ interface WeatherService {
 
     @GET(WEATHER)
     fun getWeatherByCityId(
-        @Query(value = "id") lat: Long
+        @Query(value = "id") cityId: Long
+    ): Single<WeatherResponseModel>
+
+    @GET(WEATHER)
+    fun getWeatherByCityName(
+        @Query(value = "q") cityName: String
     ): Single<WeatherResponseModel>
 }

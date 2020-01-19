@@ -38,6 +38,13 @@ class WeatherRepository @Inject constructor(
         }
     }
 
+    fun getWeatherByCityNameRemote(cityName: String): Single<Either<Failure, WeatherViewEntity>> {
+        val result = weatherDataSource.getWeatherByCityName(cityName)
+        return result.map { weather ->
+            weather.transform { it.mapToViewEntity() }
+        }
+    }
+
     fun getWeatherByCityIdLocal(cityId: Long): Single<WeatherViewEntity> {
         val result = weatherDao.getWeatherByCityId(cityId)
         return result.map { weather ->
@@ -65,7 +72,7 @@ class WeatherRepository @Inject constructor(
         return weatherDao.update(weather.toDoObject())
     }
 
-    fun getWeatherByCityName(cityName: String): Single<WeatherDo?> {
+    fun getWeatherByCityNameLocal(cityName: String): Single<WeatherDo?> {
         return weatherDao.getWeatherByName(cityName)
     }
 

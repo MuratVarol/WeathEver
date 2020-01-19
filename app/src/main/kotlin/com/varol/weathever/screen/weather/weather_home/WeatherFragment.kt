@@ -1,10 +1,8 @@
 package com.varol.weathever.screen.weather.weather_home
 
 import android.Manifest
-import android.content.Context.LOCATION_SERVICE
 import android.content.Intent
 import android.location.Location
-import android.location.LocationManager
 import android.os.Bundle
 import android.provider.Settings
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -12,6 +10,7 @@ import com.google.android.gms.location.LocationServices
 import com.varol.weathever.R
 import com.varol.weathever.base.BaseFragment
 import com.varol.weathever.databinding.FragmentWeatherBinding
+import com.varol.weathever.internal.extension.hideKeyboard
 import com.varol.weathever.internal.extension.showPopup
 import com.varol.weathever.internal.listeners.ToolbarListener
 import com.varol.weathever.internal.popup.PopupCallback
@@ -19,6 +18,7 @@ import com.varol.weathever.internal.popup.PopupUiModel
 import com.varol.weathever.screen.weather.WeatherViewModel
 import com.yanzhenjie.permission.AndPermission
 import com.yanzhenjie.permission.RequestExecutor
+
 
 const val LOCATION_REQUEST_CODE = 1001
 
@@ -38,9 +38,6 @@ class WeatherFragment : BaseFragment<WeatherViewModel, FragmentWeatherBinding>()
     }
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private val locationManager: LocationManager? by lazy {
-        context?.getSystemService(LOCATION_SERVICE) as LocationManager
-    }
 
     override fun initialize() {
         binder.apply {
@@ -51,10 +48,24 @@ class WeatherFragment : BaseFragment<WeatherViewModel, FragmentWeatherBinding>()
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        binder.cvLocation.setOnClickListener {
+            binder.tvSearch.hideKeyboard()
+            viewModel.searchText.value?.let { query ->
+                if (query.isNotEmpty()) {
+                    viewModel.getWeatherByCityName(query)
+                } else {
+                    checkLocationPermissionAndFetchData(true)
+                }
+            }
+        }
+        checkLocationPermissionAndFetchData()
+    }
+
+    private fun checkLocationPermissionAndFetchData(forceUpdate: Boolean = false) {
         //TODO: this is not best approach but works for now, fix it with better approach later
         // we have the data, so we have loc.
         // no need to set loc listener and fetch data on return of list fragment
-        if (viewModel.currentLocWeather.value != null)
+        if (viewModel.currentLocWeather.value != null && !forceUpdate)
             return
 
         AndPermission.with(this)
@@ -84,10 +95,9 @@ class WeatherFragment : BaseFragment<WeatherViewModel, FragmentWeatherBinding>()
             fusedLocationClient = LocationServices
                 .getFusedLocationProviderClient(activity).apply {
                     lastLocation.addOnSuccessListener { location: Location? ->
-                        viewModel.getWeatherByLocation(
-                            -33.8568022,
-                            151.2143847
-                        )
+                        location?.let {
+                            viewModel.getWeatherByLocation(it.latitude, it.longitude)
+                        }
                     }
                 }
         } ?: kotlin.run {
