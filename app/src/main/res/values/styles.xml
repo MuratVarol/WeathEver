@@ -71,6 +71,8 @@
     <style name="TextField.Popup">
         <item name="android:textColor">@color/dark_grey</item>
         <item name="android:textSize">@dimen/popup_text_size</item>
+        <item name="android:singleLine">false</item>
+        <item name="android:maxLines">2</item>
     </style>
 
     <style name="TextField.WeatherStatuses" parent="TextField.Big">

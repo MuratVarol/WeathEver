@@ -3,6 +3,7 @@ package com.varol.weathever.internal.view.informbar
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
+import android.text.Spanned
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.OvershootInterpolator
@@ -98,7 +99,7 @@ class InformBarView : ConstraintLayout, ContentViewCallback {
         clipToPadding = false
     }
 
-    fun setMessage(text: String) {
+    fun setMessage(text: Spanned) {
         message.text = text
     }
 

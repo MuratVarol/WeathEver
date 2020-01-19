@@ -2,6 +2,8 @@
     <string name="weathers">Weathers</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="city_saved_with_param">%s saved successfully</string>
     <string name="celsius">&#8451;</string>
     <string name="percent">%</string>
     <string name="meter_per_sec">m/s</string>
@@ -9,14 +11,28 @@
     <string name="saved_weather_list">Saved Weathers</string>
     <string name="search_for_location">Search For Location</string>
     <string name="hint_start_typing_for_cities">Start typing for cities</string>
+    <string name="need_location_permission">WeathEver needs location permission</string>
+    <string name="please_enable_gps">Please enable GPS settings</string>
+    <string name="no_option_left_to_enable_gps">What can I do more to\nmake you enable GPS?</string>
+    <string name="is_device_has_gps">Are you sure device has GPS?</string>
+    <string name="do_you_want_to_locate_sydney">Unable to get GPS data, Do you want to\ncontinue with Location of Sydney Opera House?</string>
+    <string name="weather_updated_and_saved">%s updated \nand saved to device</string>
+    <string name="weather_updated_save_failed">Weather updated \nbut could not saved</string>
+    <string name="city_deleted_successfully_with_param">%s deleted successfully</string>
+    <string name="city_deleted_failed_with_param">Failed to delete %s\n please try again</string>
+    <string name="are_sure_delete_with_param">%s will be deleted\nAre you sure?</string>
 
-    <!-- ERROR STRINGS -->
+    <!-- ERROR MESSAGES -->
     <string name="error_message_invalid_response">Server response is not valid</string>
     <string name="error_message_network_connection">Be sure that device is connected to Internet</string>
     <string name="error_message_unknown_host">Could not be reached to Server</string>
     <string name="error_unknown">Unknown Error</string>
     <string name="error_message_http">Unexpected error, please try again later \n (%1$s)</string>
     <string name="error_message_timeout">Request Timeout</string>
-    <string name="save">Save</string>
+
+    <string name="error_location_can_not_be_gathered">Oops, location could not be gathered</string>
+    <string name="error_wtf_error">Oops so strange!, Maybe restart app?</string>
+    <string name="null_weather">Hmm, Current weather seems null</string>
+
 
 </resources>

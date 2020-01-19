@@ -2,6 +2,7 @@ package com.varol.weathever.screen.weather
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
+import com.varol.weathever.R
 import com.varol.weathever.base.BaseAndroidViewModel
 import com.varol.weathever.data.entity.WeatherListItemViewEntity
 import com.varol.weathever.data.entity.WeatherViewEntity
@@ -33,6 +34,7 @@ class WeatherViewModel @Inject constructor(
 
     val currentLocWeather = MutableLiveData<WeatherViewEntity>()
     val isSaveButtonEnabled = SingleLiveData<Boolean>()
+    val isWaitingForLocation = SingleLiveData<Boolean>()
         .apply { value = false }
     val progress = MutableLiveData<Int>()
     val isProgressVisible = MutableLiveData<Boolean>().apply { value = true }
@@ -105,7 +107,7 @@ class WeatherViewModel @Inject constructor(
     fun deleteWeatherItemFromDb(weatherItem: WeatherListItemViewEntity) {
         navigate(
             PopupUiModel(
-                message = "${weatherItem.city} will be deleted!\nAre you sure?",
+                message = context.getString(R.string.are_sure_delete_with_param, weatherItem.city),
                 addCancelButton = true
             ),
             object : PopupCallback {
@@ -124,10 +126,20 @@ class WeatherViewModel @Inject constructor(
                 .subscribeOn(getBackgroundScheduler())
                 .subscribe({
                     hideProgress()
-                    showInformBar("${weather.city} deleted successfully")
+                    showInformBar(
+                        context.getString(
+                            R.string.city_deleted_successfully_with_param,
+                            weather.city
+                        )
+                    )
                 }, {
                     hideProgress()
-                    showErrorBar("${weather.city} can not delete from DB")
+                    showErrorBar(
+                        context.getString(
+                            R.string.city_deleted_failed_with_param,
+                            weather.city
+                        )
+                    )
                 })
         )
     }
@@ -147,9 +159,14 @@ class WeatherViewModel @Inject constructor(
                 .observeOn(getMainThreadScheduler())
                 .subscribeOn(getBackgroundScheduler())
                 .subscribe({
-                    showInformBar("Updated Weather saved to DB")
+                    showInformBar(
+                        context.getString(
+                            R.string.weather_updated_and_saved,
+                            weatherViewEntity.cityName
+                        )
+                    )
                 }, {
-                    showErrorBar("Updated Weather can not be saved")
+                    showErrorBar(context.getString(R.string.weather_updated_save_failed))
                 })
         )
     }
@@ -162,14 +179,19 @@ class WeatherViewModel @Inject constructor(
                     .observeOn(getMainThreadScheduler())
                     .subscribeOn(getBackgroundScheduler())
                     .subscribe({
-                        showInformBar("Saved")
+                        showInformBar(
+                            context.getString(
+                                R.string.city_saved_with_param,
+                                weather.cityName
+                            )
+                        )
                     }, { ex ->
                         showErrorBar(ex.localizedMessage)
                     })
             )
             hideProgress()
         } ?: run {
-            showErrorBar("Hmm, Current weather seems null")
+            showErrorBar(context.getString(R.string.null_weather))
         }
     }
 
@@ -206,6 +228,15 @@ class WeatherViewModel @Inject constructor(
                 })
 
         )
+    }
 
+    fun showLocationWaitingProgress() {
+        showProgress()
+        isWaitingForLocation.postValue(true)
+    }
+
+    fun hideLocationWaitingProgress() {
+        hideProgress()
+        isWaitingForLocation.postValue(false)
     }
 }

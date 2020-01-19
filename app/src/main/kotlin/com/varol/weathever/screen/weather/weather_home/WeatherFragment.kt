@@ -19,7 +19,6 @@ import com.varol.weathever.screen.weather.WeatherViewModel
 import com.yanzhenjie.permission.AndPermission
 import com.yanzhenjie.permission.RequestExecutor
 
-
 const val LOCATION_REQUEST_CODE = 1001
 
 object WeatherDirections {
@@ -92,23 +91,27 @@ class WeatherFragment : BaseFragment<WeatherViewModel, FragmentWeatherBinding>()
 
     private fun setLocationListener() {
         activity?.let { activity ->
+            viewModel.showLocationWaitingProgress()
             fusedLocationClient = LocationServices
                 .getFusedLocationProviderClient(activity).apply {
                     lastLocation.addOnSuccessListener { location: Location? ->
+                        viewModel.hideLocationWaitingProgress()
                         location?.let {
                             viewModel.getWeatherByLocation(it.latitude, it.longitude)
+                        } ?: run {
+                            viewModel.showErrorBar(context?.getString(R.string.error_location_can_not_be_gathered).toString())
                         }
                     }
                 }
         } ?: kotlin.run {
-            viewModel.showErrorBar("Oops so strange!, Maybe restart app?")
+            viewModel.showErrorBar(context?.getString(R.string.error_wtf_error).toString())
         }
     }
 
     private fun showNeedLocationPermissionDialog(executor: RequestExecutor) {
         showPopup(
             PopupUiModel(
-                message = "İzin veriniz!",
+                message = context?.getString(R.string.need_location_permission),
                 addCancelButton = true
             ),
             object : PopupCallback {
@@ -126,7 +129,7 @@ class WeatherFragment : BaseFragment<WeatherViewModel, FragmentWeatherBinding>()
     private fun showEnableGPSDialog() {
         showPopup(
             PopupUiModel(
-                message = "GPS ayarlarını açın!",
+                message = context?.getString(R.string.please_enable_gps),
                 addCancelButton = true
             ),
             object : PopupCallback {
@@ -138,7 +141,7 @@ class WeatherFragment : BaseFragment<WeatherViewModel, FragmentWeatherBinding>()
                 }
 
                 override fun onCancelClick() {
-                    viewModel.showInformBar("What can I do more to make you enable GPS?")
+                    viewModel.showInformBar(context?.getString(R.string.no_option_left_to_enable_gps).toString())
                 }
             }
         )
@@ -147,12 +150,16 @@ class WeatherFragment : BaseFragment<WeatherViewModel, FragmentWeatherBinding>()
     private fun showEnablePermissionInSettingsDialog() {
         showPopup(
             PopupUiModel(
-                message = "Enable Permission in settings screen for location",
+                message = context?.getString(R.string.please_enable_gps),
                 addCancelButton = true
             ),
             object : PopupCallback {
                 override fun onConfirmClick() {
                     startInstalledAppDetailsActivity()
+                }
+
+                override fun onCancelClick() {
+                    showUnableToInitLocationManagerDialog()
                 }
             }
         )
@@ -161,7 +168,7 @@ class WeatherFragment : BaseFragment<WeatherViewModel, FragmentWeatherBinding>()
     private fun showUnableToInitLocationManagerDialog() {
         showPopup(
             PopupUiModel(
-                message = "Unable to get GPS data, Do you want to continue with Location of Sydney Opera House?",
+                message = context?.getString(R.string.do_you_want_to_locate_sydney),
                 addCancelButton = true
             ),
             object : PopupCallback {
@@ -173,7 +180,7 @@ class WeatherFragment : BaseFragment<WeatherViewModel, FragmentWeatherBinding>()
                 }
 
                 override fun onCancelClick() {
-                    viewModel.showErrorBar("Are you sure device has GPS?")
+                    viewModel.showErrorBar(context?.getString(R.string.is_device_has_gps).toString())
                 }
             }
         )

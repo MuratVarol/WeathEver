@@ -26,6 +26,7 @@ import androidx.navigation.navGraphViewModels
 import com.borusan.mannesmann.pipeline.internal.util.functional.lazyThreadSafetyNone
 import com.varol.weathever.BR
 import com.varol.weathever.R
+import com.varol.weathever.internal.extension.EMPTY
 import com.varol.weathever.internal.extension.observeNonNull
 import com.varol.weathever.internal.extension.showPopup
 import com.varol.weathever.internal.extension.showToast
@@ -145,22 +146,22 @@ abstract class BaseFragment<VM : BaseAndroidViewModel, B : androidx.databinding.
     protected fun handleFailure(failure: Failure) {
         val (title, message) = when (failure) {
             is Failure.NoConnectivityError ->
-                Pair("", getString(R.string.error_message_network_connection))
+                Pair(String.EMPTY, getString(R.string.error_message_network_connection))
             is Failure.UnknownHostError ->
-                Pair("", getString(R.string.error_message_unknown_host))
+                Pair(String.EMPTY, getString(R.string.error_message_unknown_host))
             is Failure.ServerError ->
-                Pair("", failure.message)
+                Pair(String.EMPTY, failure.message)
             is Failure.ParsingDataError,
             is Failure.EmptyResponse ->
-                Pair("", getString(R.string.error_message_invalid_response))
+                Pair(String.EMPTY, getString(R.string.error_message_invalid_response))
             is Failure.UnknownError ->
-                Pair("", failure.message ?: getString(R.string.error_unknown))
+                Pair(String.EMPTY, failure.message ?: getString(R.string.error_unknown))
             is Failure.HttpError ->
-                Pair("", getString(R.string.error_message_http, failure.code.toString()))
+                Pair(String.EMPTY, getString(R.string.error_message_http, failure.code.toString()))
             is Failure.TimeOutError ->
-                Pair("", getString(R.string.error_message_timeout))
+                Pair(String.EMPTY, getString(R.string.error_message_timeout))
             else ->
-                Pair("", failure.message ?: failure.toString())
+                Pair(String.EMPTY, failure.message ?: failure.toString())
         }
 
         showPopup(
@@ -172,17 +173,15 @@ abstract class BaseFragment<VM : BaseAndroidViewModel, B : androidx.databinding.
         )
     }
 
-
     private fun showInformBarMessage(informBarModel: InformBarModel) {
         view?.let {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 with(informBarModel) {
                     InformBar.make(it, message, informType, duration).show()
                 }
             } else {
                 context.showToast(informBarModel.message)
             }
-
         }
     }
 

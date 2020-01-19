@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.varol.weathever.R
 import com.varol.weathever.internal.extension.findSuitableParent
+import com.varol.weathever.internal.extension.toSpanned
 
 class InformBar(
     parent: ViewGroup,
@@ -36,7 +37,7 @@ class InformBar(
 
             customView.initView()
 
-            customView.setMessage(message)
+            customView.setMessage(message.toSpanned())
 
             val informBar = InformBar(parent, customView)
 
