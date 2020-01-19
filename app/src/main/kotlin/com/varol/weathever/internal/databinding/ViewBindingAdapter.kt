@@ -11,8 +11,7 @@ import android.text.style.RelativeSizeSpan
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewOutlineProvider
-import android.widget.EditText
-import android.widget.ImageView
+import android.view.animation.AnimationUtils
 import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageView
@@ -50,6 +49,16 @@ fun View.hideIfNull(value: Any?) {
 fun View.bringToFront(value: Boolean) {
     if (value)
         ViewCompat.setTranslationZ(this, 100f)
+}
+
+@BindingAdapter("enableBlinking")
+fun View.blink(value: Boolean) {
+    val fadeAnim = AnimationUtils.loadAnimation(context, R.anim.fade_in)
+    if (value) {
+        startAnimation(fadeAnim)
+    } else {
+        clearAnimation()
+    }
 }
 
 @BindingAdapter("setShortDateFormat", requireAll = true)
